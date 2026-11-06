@@ -1,0 +1,71 @@
+{
+  "listen": ":8443",
+  "listen_audio": ":8080",
+  "public_host": "192.168.1.10:8443",
+  "audio_base_url": "http://192.168.1.10:8080",
+
+  "esp32_file": "emo-open-fw.bin",
+  "version_num": 1000,
+  "version_name": "open-0.1",
+
+  "free_chat": true,
+  "history_turns": 8,
+  "persona": "",
+  "free_chat_turns": 3,
+
+  "tts_cache_mb": 128,
+  "packs_dir": "./packs",
+  "llm_commands": false,
+  "custom_commands_file": "",
+  "custom_commands_allow_exec": false,
+  "stt_preprocess": false,
+  "listen_admin": "",
+  "listen_admin_tls": "",
+  "admin_auto_token": false,
+  "admin_allow_edit": false,
+  "admin_auto_token": false,
+  "admin_allow_edit": false,
+  "activity_log": false,
+  "dns_listen": "",
+  "dns_names": [],
+  "dns_answer_ip": "",
+  "dns_upstream": "",
+  "require_token": false,
+  "allowed_devices": [],
+  "admin_token_env": "",
+  "content_dir": "",
+  "beta_version_num": 0,
+  "beta_version_name": "",
+  "draw": { "format": "png", "max_dim": 0, "concurrency": 1 },
+  "notices_file": "",
+  "permission": { "type": "normal", "screen_info": "" },
+
+  "backends": {
+    "stt": {
+      "type": "openai",
+      "openai": { "base_url": "http://127.0.0.1:8000/v1", "model": "whisper-1" }
+    },
+    "llm": {
+      "type": "openai",
+      "openai": {
+        "base_url": "http://127.0.0.1:11434/v1",
+        "model": "llama3.2:3b",
+        "max_tokens": 60,
+        "keep_alive": "-1",
+        "temperature": 0.5,
+        "system_prompt": ""
+      }
+    },
+    "tts": {
+      "type": "openai",
+      "openai": { "base_url": "http://127.0.0.1:8001/v1", "model": "tts-1", "voice": "alloy" }
+    },
+    "tts_fallback": { "type": "espeak" },
+    "vision": { "type": "none" },
+    "image": { "type": "none", "sdwebui": { "base_url": "http://127.0.0.1:7860", "width": 256, "height": 256 } },
+    "news": { "type": "none", "count": 3, "rss": { "feeds": [] } },
+    "weather": { "type": "none" }
+  },
+
+  "capture": { "dir": "", "bodies": false }
+}

@@ -1,0 +1,29 @@
+menu "EMO open firmware"
+
+    config EMO_K210_HARD_RESET
+        bool "Pulse the K210 reset line (GPIO22) after the soft reset"
+        default y
+        help
+            Stock order: soft reset (cmd 52), wait 500 ms, then a ~1 ms low pulse on the reset line.
+            The electrical role of GPIO22 is inferred, not confirmed on a schematic.
+
+    config EMO_K210_READY_TIMEOUT_MS
+        int "How long to wait for the K210 to answer the version query after reset (ms)"
+        default 8000
+
+    config EMO_DEMO_VOLUME
+        int "Volume to set after the handshake (0-60)"
+        range 0 60
+        default 30
+
+    config EMO_DEMO_AVI
+        string "Bring-up demo: name of an eye video to play once (your own content; empty = none)"
+        default ""
+        help
+            Played with payload sub 24 as /spiffs/avi/<name>.avi. This repository ships no names.
+
+    config EMO_DEMO_MP3
+        string "Bring-up demo: name of a sound to play once (your own content; empty = none)"
+        default ""
+
+endmenu

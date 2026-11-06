@@ -1,0 +1,120 @@
+{
+ "carry_mode": [
+  "switch to carry mode",
+  "carry mode",
+  "enter carry mode",
+  "start carry mode"
+ ],
+ "hug": [
+  "give me a hug",
+  "hug me",
+  "i want a hug",
+  "can i have a hug"
+ ],
+ "kiss": [
+  "give me a kiss",
+  "kiss me",
+  "can i have a kiss"
+ ],
+ "love": [
+  "i love you",
+  "love you"
+ ],
+ "feel_sad": [
+  "i m sad",
+  "i am sad",
+  "i feel sad"
+ ],
+ "feel_tired": [
+  "i m tired",
+  "i am tired",
+  "i feel tired"
+ ],
+ "feel_sick": [
+  "i m sick",
+  "i am sick",
+  "i feel sick",
+  "i m not feeling well"
+ ],
+ "feel_angry": [
+  "i m angry",
+  "i am angry",
+  "i feel angry"
+ ],
+ "laser_eyes": [
+  "laser eyes",
+  "laser beam",
+  "heat beam",
+  "use your laser",
+  "shoot lasers"
+ ],
+ "devil_eyes": [
+  "demon eyes",
+  "unleash the beast",
+  "let s hunt tonight",
+  "lets hunt tonight",
+  "devil eyes"
+ ],
+ "good_morning": [
+  "good morning"
+ ],
+ "good_afternoon": [
+  "good afternoon"
+ ],
+ "good_evening": [
+  "good evening"
+ ],
+ "good_night": [
+  "good night"
+ ],
+ "goodbye": [
+  "good bye",
+  "goodbye",
+  "bye bye",
+  "bye",
+  "see you",
+  "see you later"
+ ],
+ "festival_new_year": [
+  "happy new year"
+ ],
+ "festival_valentines": [
+  "happy valentines",
+  "happy valentine s day",
+  "happy valentines day"
+ ],
+ "festival_work_day": [
+  "work work work"
+ ],
+ "festival_april_fools": [
+  "april fools",
+  "april fool"
+ ],
+ "festival_earth_day": [
+  "the earth is what we all have in common",
+  "happy earth day"
+ ],
+ "festival_childrens_day": [
+  "happy children s day",
+  "happy childrens day",
+  "happy children day"
+ ],
+ "festival_moon_day": [
+  "fly to the moon"
+ ],
+ "festival_matrix": [
+  "do we live in the matrix",
+  "are we in the matrix"
+ ],
+ "festival_halloween": [
+  "happy halloween",
+  "happy holloween",
+  "trick or treat"
+ ],
+ "festival_thanksgiving": [
+  "happy thanksgiving"
+ ],
+ "festival_christmas": [
+  "merry christmas"
+ ]
+}

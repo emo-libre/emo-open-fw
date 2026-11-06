@@ -1,0 +1,24 @@
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+*.pyc
+__pycache__/
+# never commit owner data or vendor material
+quarantine/
+*.kmodel
+*.avi
+*.mp3
+*.mot
+profile.json
+# the owner's running server: keys, tokens, API secrets, robot captures, speech cache, local config and the built binary
+server/data/
+server/config*.json
+!server/config.example.json
+server/config.json.bak
+server/emoserver
+# design review screenshots: they show local paths and LAN addresses
+.impeccable/review/
+# notes on ideas studied from another project; kept out of the published tree on the owner's instruction
+docs/wirepod_comparison.md

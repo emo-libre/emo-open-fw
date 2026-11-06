@@ -1,0 +1,65 @@
+{
+ "listen": ":8443",
+ "listen_audio": ":8080",
+ "public_host": "192.168.1.10:8443",
+ "audio_base_url": "http://192.168.1.10:8080",
+ "esp32_file": "emo-open-fw.bin",
+ "version_num": 1000,
+ "version_name": "open-0.1",
+ "free_chat": true,
+ "history_turns": 8,
+ "tts_cache_mb": 128,
+ "draw": {
+  "format": "png",
+  "max_dim": 240,
+  "concurrency": 1
+ },
+ "backends": {
+  "stt": {
+   "type": "openai",
+   "openai": {
+    "base_url": "https://api.groq.com/openai/v1",
+    "model": "whisper-large-v3-turbo",
+    "api_key_env": "GROQ_API_KEY"
+   }
+  },
+  "llm": {
+   "type": "anthropic",
+   "anthropic": {
+    "model": "claude-haiku-5-5",
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "max_tokens": 150,
+    "system_prompt": ""
+   }
+  },
+  "vision": {
+   "type": "anthropic",
+   "anthropic": {
+    "model": "claude-haiku-5-5",
+    "api_key_env": "ANTHROPIC_API_KEY",
+    "max_tokens": 150
+   }
+  },
+  "tts": {
+   "type": "espeak"
+  },
+  "image": {
+   "type": "none"
+  },
+  "weather": {
+   "type": "weatherapi",
+   "weatherapi": {
+    "api_key_env": "WEATHERAPI_KEY"
+   }
+  },
+  "news": {
+   "type": "rss",
+   "count": 3,
+   "rss": {
+    "feeds": [
+     "https://feeds.bbci.co.uk/news/world/rss.xml"
+    ]
+   }
+  }
+ }
+}

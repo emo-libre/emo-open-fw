@@ -1,0 +1,112 @@
+NOTICES — third-party software used or considered by emo-open-fw
+=================================================================
+
+Rule: no third-party code enters this tree until it is listed here with a licence verified from the
+upstream project itself. Copyleft licences (GPL, LGPL, AGPL, CC-BY-SA, ...) need the owner's explicit
+sign-off first. Release builds must ship this file together with the licence texts of everything marked
+"in use".
+
+Licences below were checked against the upstream repositories on 2026-11-05.
+
+OWN CODE (no third-party source)
+-------------------------------
+components/k210_link, components/motion, components/board, components/k210_port, tools/, tests/
+    Original work written from spec-clean/. Licence of this repository: GNU GPL v3.0 or later (see LICENSE), chosen by the owner
+    on 2026-11-06. Third-party parts below keep their own licences; all of them are compatible with GPL-3.0.
+
+IN USE
+------
+emo-libre/Proxy   (EMO Libre Team, "Copyright (c) 2025")
+    Upstream:  https://github.com/emo-libre/Proxy   (commit 46ab51c48bc6)
+    Licence:   BSD-3-Clause  (text kept in server/LICENSE.upstream)
+    Use:       server/ is derived from it. ALL vendor forwarding, the database, the proxy API and the replacements
+               were removed; see server/UPSTREAM.md. Ship server/LICENSE.upstream with any distribution of server/.
+
+emo-libre/Documentation   (Holger Wolff and contributors)
+    Upstream:  https://github.com/emo-libre/Documentation   (commit 007a02066241)
+    Licence:   BSD-3-Clause
+    Use:       public reference for wire shapes and corroboration; cited in spec-clean/SOURCES.md and spec-clean/ota_wire.md.
+               No text is copied into this repository.
+
+ESP-IDF
+    Upstream:  https://github.com/espressif/esp-idf
+    Licence:   Apache-2.0 (repository LICENSE)
+    Use:       build dependency; linked into the firmware image.
+
+PLANNED (no code imported yet)
+------------------------------
+cJSON  (Dave Gamble and cJSON contributors, "Copyright (c) 2009-2017")
+    Upstream:  https://github.com/DaveGamble/cJSON
+    Licence:   MIT
+    Use:       NOT reimplemented. Taken from the IDF, which is pinned to 5.2.x so that `components/json` stays
+               in-tree (newer IDF releases moved it to the managed component `espressif/cjson`).
+
+Espressif Bluedroid GATT-server demo   (gatts_demo.c)
+    Upstream:  https://github.com/espressif/esp-idf  examples/bluetooth/bluedroid/ble/gatt_server
+    Licence:   Unlicense OR CC0-1.0
+    Use:       base for the BLE phone channel (Phase 8).
+
+Espressif A2DP sink examples   (a2dp_sink_stream + common a2dp_utils)
+    Upstream:  https://github.com/espressif/esp-idf  examples/bluetooth/bluedroid/classic_bt/ (path as of release/v5.2)
+    Licence:   Unlicense OR CC0-1.0
+    Use:       base for the Bluetooth speaker (Phase 8). The stock firmware was built from an older revision of
+               this example; we use the current one and re-apply documented behavioural differences as our own code.
+
+Espressif BLE-Mesh provisioner example
+    Upstream:  https://github.com/espressif/esp-idf  examples/bluetooth/esp_ble_mesh/provisioner
+    Licence:   Apache-2.0  (SPDX header: Copyright 2017 Intel Corporation, with Espressif contributions)
+    Use:       base for dock/node provisioning (Phase 8).
+
+Espressif gptimer example   (gptimer_example_main.c)
+    Upstream:  https://github.com/espressif/esp-idf  examples/peripherals/timer_group/gptimer
+    Licence:   CC0-1.0
+    Use:       reference only; the 20 ms frame tick uses the gptimer driver API directly (Phase 3).
+
+EMO Libre: other projects
+    emo-libre/WebUI          no licence stated  -> NOT used; stays out until its author adds a licence.
+    No open ESP32 firmware for EMO was found in that organisation (checked 2026-11-05).
+
+CONTRIBUTED CONTENT
+-------------------
+Vietnamese voice-command translations
+    Contributor: Discord user "voduylinh", a native speaker, 2026-10-29, who supplied them so they could be integrated into this project.
+    Used in:     server/packs/vi.json (trigger phrases and the Vietnamese lexicon entries that cover those phrases) and
+                 server/testdata/vi_pairs.txt (the full list, as test data).
+    STATUS:      published with the contributor's permission (they wrote the translations so the project could use them; confirmed
+                 to the owner, recorded 2026-11-06). Distributed under this project's licence. Thank you, voduylinh.
+                 The Vietnamese refusal/event lines in server/intents.go and the animal and tag words in vi.json were added by this
+                 project and are NOT reviewed by a native speaker.
+
+The vendor's published English voice-command list
+    Used only as a coverage checklist: the English side of server/testdata/vi_pairs.txt and the rules in server/nlu*.go. Those are short
+    command phrases (a functional list of what the robot understands); the website text around them is not copied. Owner decision
+    (2026-11-06): shipped as interoperability data.
+
+The vendor's published per-language voice-command lists (German, French, Italian, Russian, Spanish, Portuguese, Japanese, Korean, Chinese)
+    Used only as a coverage checklist, like the English list: the non-English side of server/testdata/{de,fr,es,it,pt,ru,ja,ko,zh}_pairs.txt and the
+    trigger phrases in server/packs/{de,fr,es,it,pt,ru,ja,ko,zh}.json. The owner supplied the pages' text on 2026-11-05. The vendor's page credits
+    ROBOTEKA for the Russian translation. Where a list lacked a command, left it in English, copied it from another section, or contained a typo, the
+    phrase was written (or corrected) for this project. Every such line, and the lexicon entries (numbers, units, weekdays, colours, animals, cities),
+    spoken refusal lines and the packs' other contents, are original to this project and are NOT reviewed by native speakers; the header of each
+    pairs file says so. Owner decision (2026-11-06): shipped as interoperability data; ROBOTEKA is credited in the README.
+
+wire-pod (https://github.com/kercre123/wire-pod, MIT, Copyright (c) 2022 Kerigan Creighton)
+    Studied for ideas only (what a local voice server for a companion robot offers: custom intents, a phrase tester, audio clean-up before
+    speech-to-text, many languages). NO CODE, data or phrase lists were copied; every line of server/custom.go, server/admin_ui.go,
+    server/ui/admin.html and cleanPCM was written for this project. If code is ever copied from wire-pod, add its MIT notice here first.
+    See docs/wirepod_comparison.md.
+
+COPYLEFT — FLAGGED, NOT USED
+----------------------------
+Otto DIY library, class `Oscillator`   (Oscillator.h / Oscillator.cpp)
+    Upstream:  https://github.com/OttoDIY/OttoDIYLib   (default branch: main)
+    Licence:   GNU GPL v3.0 (repository licence; source headers read
+               "(c) Juan Gonzalez-Gomez (Obijuan), Dec 2011 ... GPL license")
+    Status:    NOT USED. Owner decision 2026-11-05: write an original oscillator (components/motion) from the
+               maths and spec-clean/motion_oscillator.md. The upstream implementation was never read or ported;
+               only its licence and file headers were viewed. The firmware therefore stays permissively licensed.
+
+NOT USED (out of scope for Mode 1)
+----------------------------------
+tiny-AES    Not used; Mode 1 needs no AES on the ESP32. Licence not reviewed.
+FatFs       Not used; SD access is on the stock K210. Licence not reviewed.

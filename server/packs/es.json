@@ -1,0 +1,978 @@
+{
+ "_fold": true,
+ "_lex": {
+  "numbers": {
+   "cero": 0,
+   "uno": 1,
+   "dos": 2,
+   "tres": 3,
+   "cuatro": 4,
+   "cinco": 5,
+   "seis": 6,
+   "siete": 7,
+   "ocho": 8,
+   "nueve": 9,
+   "diez": 10,
+   "once": 11,
+   "doce": 12,
+   "trece": 13,
+   "catorce": 14,
+   "quince": 15,
+   "dieciséis": 16,
+   "diecisiete": 17,
+   "dieciocho": 18,
+   "diecinueve": 19,
+   "veinte": 20,
+   "un": 1,
+   "una": 1,
+   "veintiuno": 21,
+   "veintiún": 21,
+   "veintiuna": 21,
+   "veintidós": 22,
+   "veintitrés": 23,
+   "veinticuatro": 24,
+   "veinticinco": 25,
+   "veintiséis": 26,
+   "veintisiete": 27,
+   "veintiocho": 28,
+   "veintinueve": 29,
+   "treinta": 30,
+   "cuarenta": 40,
+   "cincuenta": 50,
+   "sesenta": 60,
+   "setenta": 70,
+   "ochenta": 80,
+   "noventa": 90,
+   "cien": 100,
+   "ciento": 100,
+   "veinte y cinco": 25
+  },
+  "number_and": [
+   "y"
+  ],
+  "sec_units": [
+   "segundo",
+   "segundos",
+   "seg"
+  ],
+  "min_units": [
+   "minuto",
+   "minutos",
+   "min"
+  ],
+  "hour_units": [
+   "hora",
+   "horas"
+  ],
+  "one_words": [
+   "un",
+   "una"
+  ],
+  "half_words": [
+   "y media",
+   "media",
+   "medio",
+   "y medio"
+  ],
+  "at_words": [
+   "a las",
+   "a la",
+   "las",
+   "la",
+   "sobre las",
+   "para las"
+  ],
+  "clock_words": [
+   "horas",
+   "hora",
+   "h"
+  ],
+  "am_words": [
+   "de la mañana",
+   "por la mañana",
+   "de la madrugada",
+   "por la madrugada"
+  ],
+  "pm_words": [
+   "de la tarde",
+   "por la tarde"
+  ],
+  "noon_words": [
+   "del mediodía",
+   "de mediodía"
+  ],
+  "night_words": [
+   "de la noche",
+   "por la noche"
+  ],
+  "timer_words": [
+   "temporizador",
+   "cronómetro",
+   "cuenta atrás",
+   "cuenta regresiva",
+   "timer"
+  ],
+  "timer_cancel_words": [
+   "cancela",
+   "cancelar",
+   "detén",
+   "detener",
+   "parar",
+   "elimina"
+  ],
+  "alarm_words": [
+   "alarma",
+   "alarmas",
+   "despertador",
+   "despertadores"
+  ],
+  "remind_words": [
+   "recuérdame",
+   "recuérdame que",
+   "avísame"
+  ],
+  "remove_words": [
+   "elimina",
+   "eliminar",
+   "borra",
+   "borrar",
+   "quita",
+   "quitar",
+   "suprime",
+   "retira"
+  ],
+  "check_words": [
+   "comprueba",
+   "comprobar",
+   "revisa",
+   "revisar",
+   "mira",
+   "muestra",
+   "consulta",
+   "verifica"
+  ],
+  "on_words": [
+   "enciende",
+   "encender",
+   "activa",
+   "activar",
+   "prende",
+   "conecta"
+  ],
+  "off_words": [
+   "apaga",
+   "apagar",
+   "desactiva",
+   "desactivar",
+   "desconecta"
+  ],
+  "all_words": [
+   "todas",
+   "todos",
+   "toda"
+  ],
+  "stop_words": [
+   "detén",
+   "silencia"
+  ],
+  "every_day": [
+   "todos los días",
+   "cada día",
+   "diariamente",
+   "todos los dias"
+  ],
+  "weekday_phrases": [
+   "días laborables",
+   "dias laborables",
+   "entre semana",
+   "días de semana",
+   "laborables",
+   "los días de semana",
+   "de lunes a viernes"
+  ],
+  "weekend_phrases": [
+   "fines de semana",
+   "fin de semana",
+   "los fines de semana",
+   "los fin de semana",
+   "el fin de semana",
+   "sábados y domingos"
+  ],
+  "weekdays": {
+   "domingo": "SUN",
+   "domingos": "SUN",
+   "lunes": "MON",
+   "martes": "TUE",
+   "miércoles": "WED",
+   "jueves": "THU",
+   "viernes": "FRI",
+   "sábado": "SAT",
+   "sábados": "SAT"
+  },
+  "tags": {
+   "gimnasio": "gym",
+   "gym": "gym",
+   "ejercicio": "gym",
+   "entrenar": "gym",
+   "comer": "eat",
+   "comida": "eat",
+   "almorzar": "eat",
+   "cenar": "eat",
+   "dormir": "sleep",
+   "sueño": "sleep",
+   "pastilla": "pill",
+   "pastillas": "pill",
+   "medicina": "pill",
+   "medicamento": "pill",
+   "tomar una pastilla": "pill"
+  },
+  "ordinals": {
+   "primero": 1,
+   "primera": 1,
+   "segundo": 2,
+   "segunda": 2,
+   "tercero": 3,
+   "tercera": 3,
+   "cuarto": 4,
+   "cuarta": 4,
+   "quinto": 5,
+   "quinta": 5,
+   "sexto": 6,
+   "sexta": 6,
+   "séptimo": 7,
+   "séptima": 7,
+   "octavo": 8,
+   "octava": 8,
+   "noveno": 9,
+   "novena": 9,
+   "décimo": 10,
+   "décima": 10,
+   "primer": 1,
+   "tercer": 3,
+   "1º": 1,
+   "1ª": 1,
+   "2º": 2,
+   "2ª": 2,
+   "3º": 3,
+   "3ª": 3,
+   "4º": 4,
+   "4ª": 4,
+   "5º": 5,
+   "5ª": 5,
+   "6º": 6,
+   "6ª": 6,
+   "7º": 7,
+   "7ª": 7,
+   "8º": 8,
+   "8ª": 8,
+   "9º": 9,
+   "9ª": 9,
+   "10º": 10,
+   "10ª": 10
+  },
+  "light_words": [
+   "luz",
+   "luces",
+   "lámpara",
+   "lámparas",
+   "iluminación"
+  ],
+  "eye_words": [
+   "ojos",
+   "color de los ojos",
+   "color de ojos",
+   "tus ojos"
+  ],
+  "default_words": [
+   "predeterminado",
+   "por defecto",
+   "defecto",
+   "normal"
+  ],
+  "colours": {
+   "rojo": [
+    0,
+    100,
+    100
+   ],
+   "roja": [
+    0,
+    100,
+    100
+   ],
+   "rojos": [
+    0,
+    100,
+    100
+   ],
+   "rojas": [
+    0,
+    100,
+    100
+   ],
+   "naranja": [
+    30,
+    100,
+    100
+   ],
+   "anaranjado": [
+    30,
+    100,
+    100
+   ],
+   "naranjas": [
+    30,
+    100,
+    100
+   ],
+   "amarillo": [
+    50,
+    100,
+    100
+   ],
+   "amarilla": [
+    50,
+    100,
+    100
+   ],
+   "amarillos": [
+    50,
+    100,
+    100
+   ],
+   "amarillas": [
+    50,
+    100,
+    100
+   ],
+   "verde": [
+    120,
+    100,
+    100
+   ],
+   "verdes": [
+    120,
+    100,
+    100
+   ],
+   "cian": [
+    180,
+    100,
+    100
+   ],
+   "turquesa": [
+    180,
+    100,
+    100
+   ],
+   "celeste": [
+    180,
+    100,
+    100
+   ],
+   "azul": [
+    240,
+    100,
+    100
+   ],
+   "azules": [
+    240,
+    100,
+    100
+   ],
+   "morado": [
+    280,
+    100,
+    100
+   ],
+   "morada": [
+    280,
+    100,
+    100
+   ],
+   "morados": [
+    280,
+    100,
+    100
+   ],
+   "moradas": [
+    280,
+    100,
+    100
+   ],
+   "violeta": [
+    280,
+    100,
+    100
+   ],
+   "púrpura": [
+    280,
+    100,
+    100
+   ],
+   "purpura": [
+    280,
+    100,
+    100
+   ],
+   "violetas": [
+    280,
+    100,
+    100
+   ],
+   "magenta": [
+    300,
+    100,
+    100
+   ],
+   "rosa": [
+    330,
+    100,
+    100
+   ],
+   "rosado": [
+    330,
+    100,
+    100
+   ],
+   "rosada": [
+    330,
+    100,
+    100
+   ],
+   "rosas": [
+    330,
+    100,
+    100
+   ],
+   "rosados": [
+    330,
+    100,
+    100
+   ],
+   "blanco": [
+    0,
+    0,
+    100
+   ],
+   "blanca": [
+    0,
+    0,
+    100
+   ],
+   "blancos": [
+    0,
+    0,
+    100
+   ],
+   "blancas": [
+    0,
+    0,
+    100
+   ],
+   "frío": [
+    190,
+    10,
+    100
+   ],
+   "fría": [
+    190,
+    10,
+    100
+   ],
+   "frio": [
+    190,
+    10,
+    100
+   ],
+   "fria": [
+    190,
+    10,
+    100
+   ],
+   "cálido": [
+    40,
+    30,
+    100
+   ],
+   "cálida": [
+    40,
+    30,
+    100
+   ],
+   "calido": [
+    40,
+    30,
+    100
+   ],
+   "calida": [
+    40,
+    30,
+    100
+   ]
+  },
+  "weather_words": [
+   "el tiempo",
+   "clima",
+   "pronóstico",
+   "meteorología"
+  ],
+  "in_words": [
+   "en",
+   "de",
+   "para"
+  ],
+  "city_trailing": [
+   "hoy",
+   "mañana",
+   "ahora",
+   "esta noche",
+   "por favor",
+   "ahora mismo",
+   "actualmente"
+  ],
+  "name_prefixes": [
+   "me llamo",
+   "mi nombre es",
+   "llámame",
+   "puedes llamarme",
+   "soy"
+  ],
+  "birthday_prefixes": [
+   "mi cumpleaños es",
+   "mi cumpleaños"
+  ],
+  "months": {
+   "enero": 1,
+   "febrero": 2,
+   "marzo": 3,
+   "abril": 4,
+   "mayo": 5,
+   "junio": 6,
+   "julio": 7,
+   "agosto": 8,
+   "septiembre": 9,
+   "setiembre": 9,
+   "octubre": 10,
+   "noviembre": 11,
+   "diciembre": 12
+  },
+  "choose_prefixes": [
+   "elijo",
+   "yo elijo",
+   "escojo",
+   "yo juego las",
+   "yo juego en la",
+   "juego las",
+   "yo juego",
+   "casilla"
+  ],
+  "animals": {
+   "cerdo": "pig",
+   "puerco": "pig",
+   "chancho": "pig",
+   "oveja": "sheep",
+   "serpiente": "snake",
+   "culebra": "snake",
+   "tigre": "tiger",
+   "lobo": "wolf",
+   "gato": "cat",
+   "vaca": "cow",
+   "pollo": "chicken",
+   "gallina": "chicken",
+   "gallo": "chicken",
+   "cigarra": "cicada",
+   "cicada": "cicada",
+   "cuco": "cuckoo",
+   "perro": "dog",
+   "pato": "duck",
+   "elefante": "elephant",
+   "rana": "frog",
+   "caballo": "horse",
+   "zorro": "fox"
+  },
+  "animal_cues": [
+   "dice",
+   "hace",
+   "actúa",
+   "actua",
+   "como",
+   "cómo",
+   "imita",
+   "suena",
+   "sonido",
+   "qué",
+   "que"
+  ]
+ },
+ "news": [
+  "¿Qué hay de noticias hoy"
+ ],
+ "take_photo_recog": [
+  "¿Qué es esto",
+  "¿Qué puedes ver",
+  "¿Qué viste"
+ ],
+ "game_exercise": [
+  "¡Hagamos ejercicio juntos",
+  "¡Únete a mi rutina de ejercicio"
+ ],
+ "carry_mode": [
+  "Cambia al modo de carga"
+ ],
+ "game_camping": [
+  "Comenzar a acampar"
+ ],
+ "game_pig": [
+  "Vamos a jugar a los 100 puntos"
+ ],
+ "game_battle": [
+  "Listo para la acción"
+ ],
+ "game_zombie": [
+  "Los zombis vienen",
+  "Conviértete en un zombi"
+ ],
+ "game_fireworks": [
+  "Empezar los fuegos artificiales",
+  "Enciende los fuegos artificiales"
+ ],
+ "game_sticker": [
+  "Poner una pegatina",
+  "Agregar una pegatina"
+ ],
+ "hug": [
+  "Dame un abrazo"
+ ],
+ "kiss": [
+  "Dame un beso"
+ ],
+ "love": [
+  "Te amo"
+ ],
+ "feel_sad": [
+  "Estoy triste"
+ ],
+ "feel_tired": [
+  "Estoy cansado"
+ ],
+ "feel_sick": [
+  "Estoy enfermo"
+ ],
+ "feel_angry": [
+  "Estoy enojado"
+ ],
+ "about_age": [
+  "¿Cuántos años tienes",
+  "¿Qué edad tienes"
+ ],
+ "about_birthday": [
+  "¿Cuándo es tu cumpleaños",
+  "¿Cuál es tu fecha de nacimiento"
+ ],
+ "about_color": [
+  "¿Cuál es tu color favorito",
+  "¿Qué color te gusta más"
+ ],
+ "about_lucky_number": [
+  "¿Cuál es tu número de la suerte"
+ ],
+ "about_name": [
+  "¿Cómo te llamas",
+  "¿Puedo saber tu nombre"
+ ],
+ "about_sign": [
+  "¿Cuál es tu signo astrológico",
+  "¿Cuál es tu signo del zodiaco"
+ ],
+ "about_health": [
+  "¿Cómo estás",
+  "¿Cómo te sientes"
+ ],
+ "about_comfort": [
+  "Espero que te mejores pronto",
+  "Cuidaré de ti"
+ ],
+ "game_flip_a_coin": [
+  "Lanza una moneda"
+ ],
+ "game_magic": [
+  "Muestra tu magia"
+ ],
+ "game_lucky_fruit": [
+  "Fruta de la suerte"
+ ],
+ "game_pose": [
+  "Muéstrame una pose",
+  "Haz una pose",
+  "Pon una pose"
+ ],
+ "game_drawing": [
+  "Muéstrame tus pinturas",
+  "Muéstrame tu dibujo"
+ ],
+ "laser_eyes": [
+  "Ojos de láser",
+  "Rayo láser",
+  "Haz de calor"
+ ],
+ "devil_eyes": [
+  "Ojos de demonio",
+  "Suelta a la bestia",
+  "Vamos de caza esta noche"
+ ],
+ "game_roll_a_dice": [
+  "Lanza el dado"
+ ],
+ "dance": [
+  "Baila",
+  "Vamos a bailar"
+ ],
+ "dance_together": [
+  "Bailemos juntos"
+ ],
+ "dance_with_lights": [
+  "Baila con luces"
+ ],
+ "dance_to_music": [
+  "Escucha la música"
+ ],
+ "music_random": [
+  "Reproducir música"
+ ],
+ "music_together": [
+  "Reproducir música juntos"
+ ],
+ "music_piano": [
+  "Tocar el piano"
+ ],
+ "music_drum": [
+  "Toca el tambor"
+ ],
+ "music_trumpet": [
+  "Toca la trompeta"
+ ],
+ "music_sing": [
+  "Canta una canción"
+ ],
+ "game_show_something": [
+  "Muéstrame algo",
+  "¿Qué puedes hacer"
+ ],
+ "game_birthday": [
+  "Es mi cumpleaños"
+ ],
+ "chat": [
+  "Conéctate a OpenAI",
+  "Conéctate a ChatGPT"
+ ],
+ "game_shot": [
+  "Manos arriba",
+  "No te muevas"
+ ],
+ "greeting": [
+  "Hola",
+  "Hola EMO"
+ ],
+ "goodbye": [
+  "Adiós",
+  "Hasta luego"
+ ],
+ "good_morning": [
+  "Buenos días"
+ ],
+ "good_afternoon": [
+  "Buenas tardes"
+ ],
+ "good_evening": [
+  "Muy buenas tardes"
+ ],
+ "good_night": [
+  "Buenas noches"
+ ],
+ "who_am_i": [
+  "¿Sabes mi nombre"
+ ],
+ "look_at_me": [
+  "Mírame"
+ ],
+ "forward": [
+  "Ven aquí",
+  "Avanzar"
+ ],
+ "aidraw_boy": [
+  "Dibújame como un chico de anime"
+ ],
+ "aidraw_girl": [
+  "Dibújame como una mujer de anime"
+ ],
+ "festival_new_year": [
+  "Feliz año nuevo"
+ ],
+ "festival_valentines": [
+  "Feliz San Valentín"
+ ],
+ "festival_work_day": [
+  "Trabajo trabajo trabajo"
+ ],
+ "festival_april_fools": [
+  "Día de los Inocentes"
+ ],
+ "festival_earth_day": [
+  "La tierra es lo que todos tenemos en común"
+ ],
+ "festival_childrens_day": [
+  "Feliz Día del Niño"
+ ],
+ "festival_moon_day": [
+  "Volar a la luna"
+ ],
+ "festival_matrix": [
+  "¿Vivimos en Matrix"
+ ],
+ "festival_halloween": [
+  "Feliz Halloween"
+ ],
+ "festival_thanksgiving": [
+  "Feliz día de acción de gracias"
+ ],
+ "festival_christmas": [
+  "Feliz Navidad"
+ ],
+ "game_rps": [
+  "Piedra Papel tijeras"
+ ],
+ "game_ttt": [
+  "Tres en raya",
+  "Juguemos al tres en raya"
+ ],
+ "game_fix_bugs": [
+  "Arreglemos fallos",
+  "Arreglemos bichos"
+ ],
+ "game_angry_emo": [
+  "Juguemos a Emo Enojado"
+ ],
+ "game_paint": [
+  "Ponte las gafas"
+ ],
+ "be_quiet": [
+  "Silencio",
+  "Cállate",
+  "Quédate quieto",
+  "Para de explorar"
+ ],
+ "explore": [
+  "Empezar a explorar",
+  "Empieza a explorar"
+ ],
+ "play_by_yourself": [
+  "Juega solo"
+ ],
+ "sleep": [
+  "Ve a dormir",
+  "Duérmete"
+ ],
+ "left": [
+  "Gira a la izquierda"
+ ],
+ "right": [
+  "Gira a la derecha"
+ ],
+ "backward": [
+  "Retroceder"
+ ],
+ "turn_around": [
+  "Da media vuelta"
+ ],
+ "go_home": [
+  "Vete a casa",
+  "Vuelve a tu cargador"
+ ],
+ "go_off_charger": [
+  "Sal del cargador"
+ ],
+ "game_snake": [
+  "Juega a la serpiente"
+ ],
+ "update_home_station": [
+  "Actualizar la estación de origen"
+ ],
+ "volume_up": [
+  "Sube el volumen"
+ ],
+ "volume_down": [
+  "Baja el volumen"
+ ],
+ "volume_mute": [
+  "Silencia el volumen",
+  "Silenciar el volumen"
+ ],
+ "volume_max": [
+  "Volumen al máximo"
+ ],
+ "volume_min": [
+  "Volumen al mínimo"
+ ],
+ "volume_mid": [
+  "Cambiar el volumen al normal"
+ ],
+ "battery": [
+  "¿Cuál es tu nivel de batería",
+  "Muéstrame tu batería"
+ ],
+ "power_off": [
+  "Apagado"
+ ],
+ "check_update": [
+  "Busca actualizaciones"
+ ],
+ "install_update": [
+  "Instala el firmware más reciente"
+ ],
+ "date": [
+  "Qué fecha es hoy"
+ ],
+ "day": [
+  "Qué día es hoy"
+ ],
+ "time": [
+  "Qué hora es"
+ ],
+ "take_photo": [
+  "Haz una foto",
+  "Toma una foto",
+  "Toma una foto mía",
+  "Toma una imagen"
+ ],
+ "show_photo": [
+  "Muestra fotos",
+  "Enséñame las fotos"
+ ],
+ "weather": [
+  "Cuál es el tiempo"
+ ],
+ "light_on": [
+  "Enciende la luz"
+ ],
+ "light_off": [
+  "Apaga la luz"
+ ],
+ "bluetooth_enter": [
+  "Altavoz bluetooth"
+ ],
+ "bluetooth_exit": [
+  "Apagar el altavoz bluetooth"
+ ],
+ "music_start": [
+  "Empieza la música"
+ ],
+ "music_stop": [
+  "Para la música"
+ ],
+ "music_next": [
+  "El próximo",
+  "Siguiente canción",
+  "Siguiente"
+ ]
+}

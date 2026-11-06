@@ -1,0 +1,656 @@
+{
+ "_fold": true,
+ "_lex": {
+  "numbers": {
+   "không": 0,
+   "một": 1,
+   "hai": 2,
+   "ba": 3,
+   "bốn": 4,
+   "năm": 5,
+   "sáu": 6,
+   "bảy": 7,
+   "tám": 8,
+   "chín": 9,
+   "mười": 10
+  },
+  "number_style": "vi",
+  "sec_units": [
+   "giây"
+  ],
+  "min_units": [
+   "phút"
+  ],
+  "hour_units": [
+   "giờ",
+   "tiếng"
+  ],
+  "half_words": [
+   "rưỡi",
+   "nửa"
+  ],
+  "clock_words": [
+   "giờ"
+  ],
+  "am_words": [
+   "sáng"
+  ],
+  "pm_words": [
+   "chiều",
+   "tối"
+  ],
+  "noon_words": [
+   "trưa"
+  ],
+  "night_words": [
+   "đêm"
+  ],
+  "timer_words": [
+   "hẹn giờ"
+  ],
+  "timer_cancel_words": [
+   "hủy",
+   "xóa",
+   "dừng",
+   "huỷ"
+  ],
+  "alarm_words": [
+   "báo thức"
+  ],
+  "remind_words": [
+   "nhắc mình",
+   "nhắc tôi"
+  ],
+  "remove_words": [
+   "xóa",
+   "hủy",
+   "huỷ"
+  ],
+  "check_words": [
+   "kiểm tra",
+   "xem"
+  ],
+  "on_words": [
+   "bật"
+  ],
+  "off_words": [
+   "tắt"
+  ],
+  "all_words": [
+   "tất cả"
+  ],
+  "stop_words": [
+   "dừng"
+  ],
+  "every_day": [
+   "mỗi ngày",
+   "hàng ngày",
+   "hằng ngày"
+  ],
+  "weekday_phrases": [
+   "các ngày trong tuần",
+   "ngày thường",
+   "các ngày thường"
+  ],
+  "weekend_phrases": [
+   "cuối tuần"
+  ],
+  "weekdays": {
+   "chủ nhật": "SUN",
+   "thứ hai": "MON",
+   "thứ ba": "TUE",
+   "thứ tư": "WED",
+   "thứ năm": "THU",
+   "thứ sáu": "FRI",
+   "thứ bảy": "SAT"
+  },
+  "tags": {
+   "tập thể dục": "gym",
+   "tập gym": "gym",
+   "gym": "gym",
+   "thể dục": "gym",
+   "ăn tối": "eat",
+   "ăn trưa": "eat",
+   "ăn sáng": "eat",
+   "ăn cơm": "eat",
+   "bữa ăn": "eat",
+   "đi ngủ": "sleep",
+   "ngủ": "sleep",
+   "uống thuốc": "pill",
+   "thuốc": "pill"
+  },
+  "ordinals": {
+   "đầu tiên": 1,
+   "thứ nhất": 1,
+   "thứ hai": 2,
+   "thứ ba": 3,
+   "thứ tư": 4,
+   "thứ năm": 5,
+   "thứ sáu": 6,
+   "thứ bảy": 7,
+   "thứ tám": 8,
+   "thứ chín": 9,
+   "thứ mười": 10
+  },
+  "light_words": [
+   "đèn"
+  ],
+  "eye_words": [
+   "màu mắt"
+  ],
+  "default_words": [
+   "mặc định"
+  ],
+  "colours": {
+   "đỏ": [
+    0,
+    100,
+    100
+   ],
+   "cam": [
+    30,
+    100,
+    100
+   ],
+   "vàng": [
+    50,
+    100,
+    100
+   ],
+   "xanh lá": [
+    120,
+    100,
+    100
+   ],
+   "xanh lục": [
+    120,
+    100,
+    100
+   ],
+   "xanh ngọc": [
+    180,
+    100,
+    100
+   ],
+   "xanh lơ": [
+    180,
+    100,
+    100
+   ],
+   "xanh dương": [
+    240,
+    100,
+    100
+   ],
+   "xanh da trời": [
+    240,
+    100,
+    100
+   ],
+   "xanh": [
+    240,
+    100,
+    100
+   ],
+   "tím": [
+    280,
+    100,
+    100
+   ],
+   "hồng": [
+    330,
+    100,
+    100
+   ],
+   "trắng": [
+    0,
+    0,
+    100
+   ],
+   "lạnh": [
+    190,
+    10,
+    100
+   ],
+   "ấm": [
+    40,
+    30,
+    100
+   ]
+  },
+  "weather_words": [
+   "thời tiết"
+  ],
+  "in_words": [
+   "ở",
+   "tại"
+  ],
+  "name_prefixes": [
+   "mình tên là",
+   "tên mình là",
+   "tôi tên là",
+   "tên tôi là",
+   "tớ tên là"
+  ],
+  "birthday_prefixes": [
+   "sinh nhật mình là",
+   "sinh nhật của mình là",
+   "sinh nhật tôi là",
+   "mình sinh ngày"
+  ],
+  "day_word": "ngày",
+  "month_word": "tháng",
+  "choose_prefixes": [
+   "mình chọn ô số",
+   "mình đánh vào ô số",
+   "chọn ô số",
+   "ô số"
+  ],
+  "animals": {
+   "cáo": "fox",
+   "mèo": "cat",
+   "heo": "pig",
+   "lợn": "pig",
+   "bò": "cow",
+   "cừu": "sheep",
+   "rắn": "snake",
+   "hổ": "tiger",
+   "cọp": "tiger",
+   "sói": "wolf",
+   "gà": "chicken",
+   "ve sầu": "cicada",
+   "chim cu": "cuckoo",
+   "chó": "dog",
+   "vịt": "duck",
+   "voi": "elephant",
+   "ếch": "frog",
+   "ngựa": "horse"
+  },
+  "animal_cues": [
+   "kêu",
+   "như thế nào",
+   "giả làm",
+   "bắt chước",
+   "tiếng"
+  ],
+  "city_trailing": [
+   "thế nào",
+   "như thế nào",
+   "hôm nay",
+   "ngày mai",
+   "bây giờ",
+   "vậy",
+   "nhỉ",
+   "không",
+   "ra sao",
+   "tối nay"
+  ]
+ },
+ "news": [
+  "Hôm nay có gì mới"
+ ],
+ "take_photo_recog": [
+  "Đây là cái gì vậy",
+  "Em nhìn thấy gì",
+  "Em vừa nhìn thấy gì"
+ ],
+ "game_exercise": [
+  "Cùng tập thể dục nào",
+  "Tập thể dục cùng nhau nhé"
+ ],
+ "carry_mode": [
+  "Bật chế độ bế lên đi"
+ ],
+ "game_camping": [
+  "Bắt đầu cắm trại nào"
+ ],
+ "game_pig": [
+  "Chơi trò một trăm điểm nào"
+ ],
+ "game_battle": [
+  "Sẵn sàng hành động nào"
+ ],
+ "game_zombie": [
+  "Zombie đang đến kìa",
+  "Biến thành zombie đi"
+ ],
+ "game_fireworks": [
+  "Bắn pháo hoa đi",
+  "Bắn pháo hoa lên nào"
+ ],
+ "game_sticker": [
+  "Dán nhãn dán lên đi",
+  "Thêm một nhãn dán đi"
+ ],
+ "hug": [
+  "Ôm mình một cái nào"
+ ],
+ "kiss": [
+  "Hôn mình một cái nào"
+ ],
+ "love": [
+  "Mình yêu em"
+ ],
+ "feel_sad": [
+  "Mình đang buồn"
+ ],
+ "feel_tired": [
+  "Mình mệt quá"
+ ],
+ "feel_sick": [
+  "Mình bị ốm rồi"
+ ],
+ "feel_angry": [
+  "Mình đang giận đấy"
+ ],
+ "about_age": [
+  "Em bao nhiêu tuổi rồi",
+  "Em mấy tuổi rồi"
+ ],
+ "about_birthday": [
+  "Sinh nhật em là ngày nào",
+  "Em sinh ngày mấy"
+ ],
+ "about_color": [
+  "Em thích màu gì nhất",
+  "Màu em thích nhất là gì"
+ ],
+ "about_lucky_number": [
+  "Con số may mắn của em là gì"
+ ],
+ "about_name": [
+  "Em tên gì",
+  "Cho mình biết tên em nhé"
+ ],
+ "about_sign": [
+  "Em thuộc cung hoàng đạo nào",
+  "Cung hoàng đạo của em là gì"
+ ],
+ "about_health": [
+  "Em khỏe không",
+  "Em cảm thấy thế nào"
+ ],
+ "about_comfort": [
+  "Mong em mau khỏe nhé",
+  "Mình sẽ chăm sóc em"
+ ],
+ "game_flip_a_coin": [
+  "Tung đồng xu đi"
+ ],
+ "game_magic": [
+  "Biểu diễn ảo thuật đi"
+ ],
+ "game_lucky_fruit": [
+  "Trái cây may mắn"
+ ],
+ "game_pose": [
+  "Tạo dáng đi nào",
+  "Tạo một kiểu dáng đi"
+ ],
+ "game_drawing": [
+  "Cho mình xem tranh em vẽ đi",
+  "Cho mình xem hình em vẽ nào"
+ ],
+ "laser_eyes": [
+  "Bắn tia laser từ mắt đi",
+  "Bắn tia laser đi",
+  "Bắn tia nhiệt đi"
+ ],
+ "devil_eyes": [
+  "Bật đôi mắt ác quỷ đi",
+  "Giải phóng quái thú nào",
+  "Tối nay đi săn nào"
+ ],
+ "game_roll_a_dice": [
+  "Tung xúc xắc đi"
+ ],
+ "dance": [
+  "Nhảy đi",
+  "Cùng nhảy nào"
+ ],
+ "dance_together": [
+  "Nhảy cùng nhau nhé"
+ ],
+ "dance_with_lights": [
+  "Vừa nhảy vừa bật đèn đi"
+ ],
+ "dance_to_music": [
+  "Nghe nhạc nào"
+ ],
+ "music_random": [
+  "Chơi nhạc đi"
+ ],
+ "music_together": [
+  "Cùng chơi nhạc nào"
+ ],
+ "music_piano": [
+  "Chơi đàn piano đi"
+ ],
+ "music_drum": [
+  "Đánh trống đi"
+ ],
+ "music_trumpet": [
+  "Thổi kèn trumpet đi"
+ ],
+ "music_sing": [
+  "Hát một bài đi"
+ ],
+ "game_show_something": [
+  "Em có khả năng gì",
+  "Em làm được những gì"
+ ],
+ "game_birthday": [
+  "Hôm nay là sinh nhật mình"
+ ],
+ "chat": [
+  "Kết nối với OpenAI đi",
+  "Kết nối với ChatGPT đi"
+ ],
+ "game_shot": [
+  "Giơ tay lên",
+  "Đứng im"
+ ],
+ "greeting": [
+  "Chào em",
+  "Xin chào EMO",
+  "Xin chào"
+ ],
+ "goodbye": [
+  "Tạm biệt em",
+  "Bye bye nhé",
+  "Tạm biệt"
+ ],
+ "good_morning": [
+  "Chào buổi sáng"
+ ],
+ "good_afternoon": [
+  "Chào buổi chiều"
+ ],
+ "good_evening": [
+  "Chào buổi tối"
+ ],
+ "good_night": [
+  "Chúc em ngủ ngon"
+ ],
+ "who_am_i": [
+  "Em có biết tên mình không"
+ ],
+ "look_at_me": [
+  "Nhìn mình này"
+ ],
+ "forward": [
+  "Lại đây nào",
+  "Đi về phía trước"
+ ],
+ "aidraw_boy": [
+  "Vẽ mình thành nhân vật nam anime đi",
+  "nhân vật nam anime"
+ ],
+ "aidraw_girl": [
+  "nhân vật nữ anime"
+ ],
+ "festival_new_year": [
+  "Chúc mừng năm mới"
+ ],
+ "festival_valentines": [
+  "Chúc mừng ngày lễ tình nhân"
+ ],
+ "festival_work_day": [
+  "Làm việc, làm việc, làm việc"
+ ],
+ "festival_april_fools": [
+  "Cá tháng Tư"
+ ],
+ "festival_earth_day": [
+  "Trái Đất là ngôi nhà chung của tất cả chúng ta"
+ ],
+ "festival_childrens_day": [
+  "Chúc mừng ngày Quốc tế Thiếu nhi"
+ ],
+ "festival_moon_day": [
+  "Bay lên Mặt Trăng nào"
+ ],
+ "festival_matrix": [
+  "Chúng ta có đang sống trong Ma Trận không"
+ ],
+ "festival_halloween": [
+  "Chúc mừng Halloween"
+ ],
+ "festival_thanksgiving": [
+  "Chúc mừng Lễ Tạ Ơn"
+ ],
+ "festival_christmas": [
+  "Giáng sinh vui vẻ"
+ ],
+ "game_rps": [
+  "Oẳn tù tì nào"
+ ],
+ "game_ttt": [
+  "Chơi cờ ca rô đi",
+  "Cùng chơi cờ ca rô nhé"
+ ],
+ "game_fix_bugs": [
+  "Cùng sửa lỗi nào",
+  "Để mình sửa lỗi giúp em nhé"
+ ],
+ "game_angry_emo": [
+  "Chơi Angry EMO nào"
+ ],
+ "game_paint": [
+  "Đeo kính vào đi"
+ ],
+ "be_quiet": [
+  "Im lặng nào",
+  "Im đi",
+  "Đứng yên nhé",
+  "Dừng khám phá lại"
+ ],
+ "explore": [
+  "Bắt đầu khám phá đi"
+ ],
+ "play_by_yourself": [
+  "Tự chơi đi nhé"
+ ],
+ "sleep": [
+  "Đi ngủ đi"
+ ],
+ "left": [
+  "Quay sang trái"
+ ],
+ "right": [
+  "Quay sang phải"
+ ],
+ "backward": [
+  "Lùi lại phía sau"
+ ],
+ "turn_around": [
+  "Quay một vòng đi"
+ ],
+ "go_home": [
+  "Về nhà đi",
+  "Quay về đế sạc đi"
+ ],
+ "go_off_charger": [
+  "Rời khỏi đế sạc đi"
+ ],
+ "game_snake": [
+  "Chơi trò rắn săn mồi đi"
+ ],
+ "update_home_station": [
+  "Cập nhật Home Station đi"
+ ],
+ "volume_up": [
+  "Tăng âm lượng lên"
+ ],
+ "volume_down": [
+  "Giảm âm lượng xuống"
+ ],
+ "volume_mute": [
+  "Tắt tiếng đi"
+ ],
+ "volume_max": [
+  "Bật âm lượng tối đa"
+ ],
+ "volume_min": [
+  "Chỉnh âm lượng nhỏ nhất"
+ ],
+ "volume_mid": [
+  "Đặt âm lượng về mức bình thường"
+ ],
+ "battery": [
+  "Em còn bao nhiêu phần trăm pin",
+  "Cho mình xem mức pin đi"
+ ],
+ "power_off": [
+  "Tắt nguồn đi"
+ ],
+ "check_update": [
+  "Kiểm tra bản cập nhật đi"
+ ],
+ "install_update": [
+  "Cài đặt firmware mới nhất đi"
+ ],
+ "date": [
+  "Hôm nay là ngày mấy"
+ ],
+ "day": [
+  "Hôm nay là thứ mấy"
+ ],
+ "time": [
+  "Mấy giờ rồi em"
+ ],
+ "take_photo": [
+  "Chụp ảnh đi",
+  "Chụp một tấm hình đi",
+  "Chụp ảnh cho mình đi"
+ ],
+ "show_photo": [
+  "Hiển thị ảnh đi",
+  "Cho mình xem những bức ảnh đi"
+ ],
+ "weather": [
+  "Thời tiết hôm nay thế nào"
+ ],
+ "light_on": [
+  "Bật đèn lên"
+ ],
+ "light_off": [
+  "Tắt đèn đi"
+ ],
+ "bluetooth_enter": [
+  "Bật chế độ loa Bluetooth"
+ ],
+ "bluetooth_exit": [
+  "Tắt chế độ loa Bluetooth"
+ ],
+ "music_start": [
+  "Bật nhạc lên"
+ ],
+ "music_stop": [
+  "Tắt nhạc đi"
+ ],
+ "music_next": [
+  "Chuyển bài tiếp theo",
+  "Phát bài tiếp theo"
+ ]
+}

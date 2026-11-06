@@ -1,0 +1,632 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T00:00:00Z",
+  "title": "Design System: EMO open server admin",
+  "extensions": {
+    "colorMeta": {
+      "hue-home": {
+        "role": "primary",
+        "displayName": "Chrome Yellow",
+        "canonical": "oklch(83.4% 0.158 89.0)",
+        "tonalRamp": [
+          "#110a00",
+          "#2f2301",
+          "#523f02",
+          "#785d05",
+          "#a07d05",
+          "#c4a03c",
+          "#e4c67a",
+          "#ffedc1"
+        ]
+      },
+      "hue-setup": {
+        "role": "primary",
+        "displayName": "Burnt Sienna",
+        "canonical": "oklch(48.3% 0.100 44.7)",
+        "tonalRamp": [
+          "#1a0400",
+          "#3d1907",
+          "#63331c",
+          "#8c4f32",
+          "#b17053",
+          "#cf967d",
+          "#eebda8",
+          "#feeae1"
+        ]
+      },
+      "hue-try": {
+        "role": "primary",
+        "displayName": "Oxide Orange",
+        "canonical": "oklch(65.6% 0.168 47.5)",
+        "tonalRamp": [
+          "#190500",
+          "#401700",
+          "#6c2c01",
+          "#9c4300",
+          "#ca5f1a",
+          "#e78a59",
+          "#ffb691",
+          "#feeae0"
+        ]
+      },
+      "hue-commands": {
+        "role": "primary",
+        "displayName": "Grass Green",
+        "canonical": "oklch(61.1% 0.146 146.1)",
+        "tonalRamp": [
+          "#001002",
+          "#002f09",
+          "#025116",
+          "#1b742c",
+          "#43974e",
+          "#74b879",
+          "#a2daa5",
+          "#d0fcd2"
+        ]
+      },
+      "hue-activity": {
+        "role": "primary",
+        "displayName": "Deep Teal",
+        "canonical": "oklch(57.7% 0.091 194.9)",
+        "tonalRamp": [
+          "#000e0e",
+          "#012c2c",
+          "#044c4c",
+          "#076f70",
+          "#389292",
+          "#6db3b3",
+          "#9dd6d5",
+          "#cdf9f8"
+        ]
+      },
+      "hue-help": {
+        "role": "primary",
+        "displayName": "Ultramarine",
+        "canonical": "oklch(42.8% 0.180 269.0)",
+        "tonalRamp": [
+          "#03022f",
+          "#101b5b",
+          "#25388b",
+          "#3c56bf",
+          "#5a79e5",
+          "#81a0fd",
+          "#b3c8ff",
+          "#e8eefe"
+        ]
+      },
+      "hue-expert": {
+        "role": "primary",
+        "displayName": "Violet",
+        "canonical": "oklch(46.9% 0.152 301.7)",
+        "tonalRamp": [
+          "#120124",
+          "#2e154b",
+          "#4e2e76",
+          "#7149a3",
+          "#926bc8",
+          "#b393e3",
+          "#d4bbfe",
+          "#f1ebfe"
+        ]
+      },
+      "on-hue-white": {
+        "role": "neutral",
+        "displayName": "On-hue White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "problem": {
+        "role": "tertiary",
+        "displayName": "Vermilion",
+        "canonical": "oklch(56.7% 0.212 28.8)",
+        "tonalRamp": [
+          "#1f0000",
+          "#4d0000",
+          "#800203",
+          "#b70d0b",
+          "#df4235",
+          "#fb7767",
+          "#ffb3a8",
+          "#fee9e5"
+        ]
+      },
+      "problem-ink": {
+        "role": "tertiary",
+        "displayName": "Vermilion Ink",
+        "canonical": "oklch(46.8% 0.172 28.9)",
+        "tonalRamp": [
+          "#1f0000",
+          "#4d0101",
+          "#7a1711",
+          "#a93026",
+          "#d15547",
+          "#ed8273",
+          "#feb3a8",
+          "#ffe9e5"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Milk Sheet",
+        "canonical": "oklch(99.1% 0.002 247.8)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#414243",
+          "#606162",
+          "#818283",
+          "#a4a5a6",
+          "#c8c9ca",
+          "#eeeeef"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Field White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(20.4% 0.007 258.4)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242527",
+          "#404245",
+          "#5f6165",
+          "#808286",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeef1"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "oklch(42.6% 0.015 259.8)",
+        "tonalRamp": [
+          "#090b0e",
+          "#22252a",
+          "#3e4248",
+          "#5d6269",
+          "#7e838b",
+          "#a1a5ac",
+          "#c6c9cf",
+          "#eceff3"
+        ]
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(88.0% 0.011 256.7)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#232529",
+          "#3f4247",
+          "#5e6267",
+          "#7e8389",
+          "#a2a5aa",
+          "#c6c9ce",
+          "#eceff2"
+        ]
+      },
+      "edge-2": {
+        "role": "neutral",
+        "displayName": "Faint Rule",
+        "canonical": "oklch(94.2% 0.006 255.5)",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#242527",
+          "#404245",
+          "#5f6165",
+          "#808286",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeef0"
+        ]
+      },
+      "sheet-dark": {
+        "role": "neutral",
+        "displayName": "Charcoal Sheet (dark)",
+        "canonical": "oklch(23.0% 0.008 264.4)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242528",
+          "#404246",
+          "#5f6166",
+          "#808287",
+          "#a3a5a9",
+          "#c7c9cd",
+          "#edeef1"
+        ]
+      },
+      "field-dark": {
+        "role": "neutral",
+        "displayName": "Field (dark)",
+        "canonical": "oklch(19.0% 0.007 258.4)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242527",
+          "#404245",
+          "#5f6165",
+          "#808286",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeef1"
+        ]
+      },
+      "ink-dark": {
+        "role": "neutral",
+        "displayName": "Ink (dark)",
+        "canonical": "oklch(95.4% 0.005 258.3)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242526",
+          "#414244",
+          "#606164",
+          "#818285",
+          "#a4a5a7",
+          "#c8c9cb",
+          "#edeef0"
+        ]
+      },
+      "ink-2-dark": {
+        "role": "neutral",
+        "displayName": "Graphite (dark)",
+        "canonical": "oklch(78.4% 0.014 258.4)",
+        "tonalRamp": [
+          "#090b0e",
+          "#22252a",
+          "#3e4248",
+          "#5d6269",
+          "#7d838b",
+          "#a1a5ac",
+          "#c5c9cf",
+          "#eceff3"
+        ]
+      },
+      "edge-dark": {
+        "role": "neutral",
+        "displayName": "Hairline (dark)",
+        "canonical": "oklch(34.7% 0.016 259.8)",
+        "tonalRamp": [
+          "#090b0e",
+          "#22252a",
+          "#3e4249",
+          "#5c626a",
+          "#7d838b",
+          "#a1a5ad",
+          "#c5c9d0",
+          "#ebeff4"
+        ]
+      },
+      "edge-2-dark": {
+        "role": "neutral",
+        "displayName": "Faint Rule (dark)",
+        "canonical": "oklch(30.0% 0.014 261.7)",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#232529",
+          "#3f4248",
+          "#5d6169",
+          "#7e838a",
+          "#a1a5ac",
+          "#c6c9cf",
+          "#eceff3"
+        ]
+      },
+      "problem-dark": {
+        "role": "tertiary",
+        "displayName": "Vermilion (dark)",
+        "canonical": "oklch(68.7% 0.203 27.8)",
+        "tonalRamp": [
+          "#1f0000",
+          "#4d0102",
+          "#810006",
+          "#b41918",
+          "#dc463d",
+          "#f8796c",
+          "#feb3a9",
+          "#fee9e6"
+        ]
+      },
+      "problem-ink-dark": {
+        "role": "tertiary",
+        "displayName": "Vermilion Ink (dark)",
+        "canonical": "oklch(75.9% 0.144 26.1)",
+        "tonalRamp": [
+          "#1f0001",
+          "#480b0b",
+          "#722320",
+          "#9f3c37",
+          "#c55f57",
+          "#e38880",
+          "#feb3ab",
+          "#ffe9e6"
+        ]
+      },
+      "on-hue-ink": {
+        "role": "neutral",
+        "displayName": "On-hue Ink",
+        "canonical": "oklch(20.4% 0.007 258.4)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#242527",
+          "#404245",
+          "#5f6165",
+          "#808286",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeef1"
+        ]
+      },
+      "slip": {
+        "role": "tertiary",
+        "displayName": "Slip red",
+        "value": "#c4231c",
+        "note": "fill behind the Problem / too slow slip and the error toast; white text on it is 5.8:1"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "View title at the top of the sheet; 2.5rem on phones."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Product name in the name bar on the board."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section heads on the sheet."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "Sub-heads inside a section."
+      },
+      "tab": {
+        "displayName": "Tab",
+        "purpose": "Tab rail labels; 700 when current."
+      },
+      "plate": {
+        "displayName": "Plate",
+        "purpose": "Engraved engine role label."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "One-line explanation under the view title; max 68ch."
+      },
+      "book": {
+        "displayName": "Book",
+        "purpose": "Notes, plate details, results, what EMO heard; max 68ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Controls and default text, tabular numerals."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels above inputs, graphite."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Codes, commands, timings, textareas."
+      },
+      "slip": {
+        "displayName": "Slip",
+        "purpose": "Vermilion problem slip; table heads use the same voice at 0.82rem."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet-lift",
+        "value": "0 1px 2px rgba(0,0,0,.14), 0 10px 30px -8px rgba(0,0,0,.28)",
+        "purpose": "The sheet lying on the board; the only lifted surface."
+      },
+      {
+        "name": "tab-edge",
+        "value": "0 2px 1px rgba(0,0,0,.2)",
+        "purpose": "Card-stock edge under each desktop rail tab."
+      },
+      {
+        "name": "tab-tuck",
+        "value": "inset 0 -6px 6px -6px rgba(0,0,0,.4)",
+        "purpose": "Phone tabs not current, tucked behind the sheet."
+      },
+      {
+        "name": "toast",
+        "value": "0 6px 20px -6px rgba(0,0,0,.45)",
+        "purpose": "Floating status and error toasts."
+      }
+    ],
+    "motion": [
+      {
+        "name": "board-recolour",
+        "value": "background-color 90ms steps(2)",
+        "purpose": "Board takes the new section hue in a two-frame step, no easing."
+      },
+      {
+        "name": "sheet-hinge",
+        "value": "90ms steps(2), translateX(5px) to none",
+        "purpose": "Sheet nudges back into place on section change."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition:none; animation:none",
+        "purpose": "prefers-reduced-motion removes all motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "600px"
+      },
+      {
+        "name": "stacked",
+        "value": "860px"
+      },
+      {
+        "name": "desk-max",
+        "value": "1200px"
+      }
+    ],
+    "constraints": [
+      "Strict CSP: inline CSS and JS only; no web fonts, images or external hosts. Type stacks are system stacks and icons are inline SVG.",
+      "Open follow-up: a self-hosted condensed display face needs a verified licence and the owner's sign-off before entering the tree, and must be inlined."
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default action: ink block with sheet-coloured text.",
+      "html": "<button class=\"ds-btn\">Try</button>",
+      "css": ".ds-btn { font:600 16px/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; min-height:44px; padding:9px 12px; border:1px solid; border-radius:6px; cursor:pointer; background:var(--ink, #15171a); color:var(--sheet, #fbfcfd); border-color:var(--ink, #15171a); } .ds-btn:hover { filter:brightness(1.15); } .ds-btn:focus-visible { outline:2px solid var(--ink, #15171a); outline-offset:2px; } .ds-btn:disabled { opacity:.5; cursor:default; filter:none; }"
+    },
+    {
+      "name": "Plain Button",
+      "kind": "button",
+      "refersTo": "button-plain",
+      "description": "Secondary action: transparent with a hairline border.",
+      "html": "<button class=\"ds-btn-plain\">Check the engines now</button>",
+      "css": ".ds-btn-plain { font:600 16px/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; min-height:44px; padding:9px 12px; border:1px solid; border-radius:6px; cursor:pointer; background:transparent; color:var(--ink, #15171a); border-color:var(--edge, #d3d8df); } .ds-btn-plain:hover { border-color:var(--ink, #15171a); } .ds-btn-plain:focus-visible { outline:2px solid var(--ink, #15171a); outline-offset:2px; }"
+    },
+    {
+      "name": "Danger Button (alone)",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Destructive action, pushed to the far end of its row with 32px of empty space before it.",
+      "html": "<div class=\"ds-row\"><button class=\"ds-btn-plain\">Refresh</button><button class=\"ds-btn-danger\">Clear the list</button></div>",
+      "css": ".ds-row { display:flex; gap:10px; align-items:flex-end; } .ds-btn-plain { font:600 16px/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; min-height:44px; padding:9px 12px; border:1px solid; border-radius:6px; cursor:pointer; background:transparent; color:var(--ink, #15171a); border-color:var(--edge, #d3d8df); } .ds-btn-danger { font:600 16px/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; min-height:44px; padding:9px 12px; border:1px solid; border-radius:6px; cursor:pointer; background:transparent; color:var(--problem-ink, #a51d16); border-color:var(--problem-ink, #a51d16); margin-left:auto; } .ds-btn-danger:hover { filter:brightness(1.15); } .ds-btn-danger:focus-visible { outline:2px solid var(--ink, #15171a); outline-offset:2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Labelled field; focus turns the border ink and rings it in the section hue.",
+      "html": "<label class=\"ds-label\" for=\"ds-f\">Say something to EMO (typed)</label><input class=\"ds-input\" id=\"ds-f\" type=\"text\" placeholder=\"set a timer for ten minutes\">",
+      "css": ".ds-label { display:block; color:var(--ink-2, #4a4f57); font:600 .86rem/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; margin:.7rem 0 .2rem; } .ds-input { font:16px/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; width:100%; max-width:600px; min-height:44px; padding:9px 12px; border:1px solid var(--edge, #d3d8df); border-radius:6px; background:var(--field, #ffffff); color:var(--ink, #15171a); } .ds-input::placeholder { color:var(--ink-2, #4a4f57); opacity:.8; } .ds-input:focus { border-color:var(--ink, #15171a); outline:2px solid var(--hue, #f2c230); outline-offset:0; }"
+    },
+    {
+      "name": "Tab Rail",
+      "kind": "nav",
+      "refersTo": "tab-home",
+      "description": "Section tabs in full-strength hues with a punched hole; the current tab reaches full width.",
+      "html": "<nav class=\"ds-rail\"><button class=\"ds-tab ds-home\" aria-current=\"page\"><span class=\"ds-hole\"></span>Home</button><button class=\"ds-tab ds-setup\"><span class=\"ds-hole\"></span>Setup</button><button class=\"ds-tab ds-try\"><span class=\"ds-hole\"></span>Try it</button><button class=\"ds-tab ds-act\"><span class=\"ds-hole\"></span>Activity</button><button class=\"ds-tab ds-exp ds-gap\"><span class=\"ds-hole\"></span>Expert</button></nav>",
+      "css": ".ds-rail { display:flex; flex-direction:column; gap:5px; width:172px; } .ds-tab { display:flex; align-items:center; gap:9px; width:84%; min-height:48px; padding:0 14px 0 16px; border:0; border-radius:0 8px 8px 0; font:600 .98rem/1.1 \"Univers Condensed\",\"Helvetica Neue Condensed\",\"Arial Narrow\",\"Roboto Condensed\",\"DejaVu Sans Condensed\",\"Liberation Sans Narrow\",\"Nimbus Sans Narrow\",system-ui,sans-serif; font-stretch:condensed; text-transform:uppercase; letter-spacing:.05em; text-align:left; cursor:pointer; box-shadow:0 2px 1px rgba(0,0,0,.2); } .ds-tab:hover { width:90%; } .ds-tab[aria-current=page] { width:100%; font-weight:700; } .ds-tab:focus-visible { outline:2px solid #15171a; outline-offset:2px; } .ds-hole { width:9px; height:9px; border-radius:50%; box-shadow:inset 0 0 0 1.5px currentColor; opacity:.7; } .ds-tab[aria-current=page] .ds-hole { background:currentColor; opacity:1; } .ds-home { background:#f2c230; color:#15171a; } .ds-setup { background:#8c4a2b; color:#fff; } .ds-try { background:#e06a1f; color:#15171a; } .ds-act { background:#239494; color:#15171a; } .ds-exp { background:#6b3fa0; color:#fff; } .ds-gap { margin-top:22px; }"
+    },
+    {
+      "name": "Key Pill",
+      "kind": "chip",
+      "refersTo": "pill",
+      "description": "Round hairline tag beside an API-key label.",
+      "html": "<span class=\"ds-pill\">key saved</span> <span class=\"ds-pill ds-todo\">no key yet</span>",
+      "css": ".ds-pill { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--edge, #d3d8df); font:600 .78rem/1.5 system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; color:var(--ink, #15171a); } .ds-todo { color:var(--ink-2, #4a4f57); }"
+    },
+    {
+      "name": "Problem Slip",
+      "kind": "chip",
+      "refersTo": "slip",
+      "description": "Vermilion condensed-caps tag; the only filled vermilion on the sheet besides the error toast.",
+      "html": "<span class=\"ds-slip\">Problem</span>",
+      "css": ".ds-slip { display:inline-block; background:var(--problem, #d7261e); color:#fff; font:700 .78rem/1 \"Univers Condensed\",\"Helvetica Neue Condensed\",\"Arial Narrow\",\"Roboto Condensed\",\"DejaVu Sans Condensed\",\"Liberation Sans Narrow\",\"Nimbus Sans Narrow\",system-ui,sans-serif; font-stretch:condensed; text-transform:uppercase; letter-spacing:.06em; padding:4px 7px; border-radius:3px; }"
+    },
+    {
+      "name": "Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "The single milk-white container lying on the section-hue board.",
+      "html": "<div class=\"ds-board\"><div class=\"ds-sheet\"><h2 class=\"ds-title\">Is everything working?</h2><p class=\"ds-lede\">Is EMO fine? Try a phrase, hear the voice, see what EMO heard.</p></div></div>",
+      "css": ".ds-board { background:var(--hue, #f2c230); padding:20px; } .ds-sheet { background:var(--sheet, #fbfcfd); color:var(--ink, #15171a); border:1px solid var(--edge, #d3d8df); border-radius:6px 0 6px 6px; padding:28px 32px 36px; box-shadow:0 1px 2px rgba(0,0,0,.14), 0 10px 30px -8px rgba(0,0,0,.28); } .ds-title { font:700 1.12rem/1.2 \"Univers Condensed\",\"Helvetica Neue Condensed\",\"Arial Narrow\",\"Roboto Condensed\",\"DejaVu Sans Condensed\",\"Liberation Sans Narrow\",\"Nimbus Sans Narrow\",system-ui,sans-serif; font-stretch:condensed; text-transform:uppercase; letter-spacing:.05em; margin:0 0 8px; } .ds-lede { font:1.05rem/1.55 \"Iowan Old Style\",\"Charter\",\"Bitstream Charter\",\"Sitka Text\",Cambria,\"DejaVu Serif\",Georgia,serif; color:var(--ink-2, #4a4f57); max-width:68ch; margin:0; }"
+    },
+    {
+      "name": "Engine Name Plate",
+      "kind": "custom",
+      "refersTo": "engine-plate",
+      "description": "Engraved role label, engine in use in book serif, and a drawn state mark.",
+      "html": "<ul class=\"ds-engines\"><li><span class=\"ds-plate\">Listening</span><span class=\"ds-uses\">A local speech engine</span><span class=\"ds-state\"><svg class=\"ds-mark\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"9\" fill=\"currentColor\"/><path d=\"M5.8 10.4l2.8 2.8 5.6-6\" fill=\"none\" stroke=\"var(--sheet, #fbfcfd)\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>Ready</span></li></ul>",
+      "css": ".ds-engines { list-style:none; margin:0; padding:0; } .ds-engines li { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:4px 14px; align-items:center; padding:14px 16px; border:1px solid var(--edge, #d3d8df); border-radius:6px; background:var(--field, #ffffff); color:var(--ink, #15171a); } .ds-plate { font:700 1.02rem/1 \"Univers Condensed\",\"Helvetica Neue Condensed\",\"Arial Narrow\",\"Roboto Condensed\",\"DejaVu Sans Condensed\",\"Liberation Sans Narrow\",\"Nimbus Sans Narrow\",system-ui,sans-serif; font-stretch:condensed; text-transform:uppercase; letter-spacing:.08em; background:var(--ink, #15171a); color:var(--sheet, #fbfcfd); padding:7px 10px 6px; border-radius:3px; min-width:7.5rem; text-align:center; } .ds-uses { font:1.05rem/1.3 \"Iowan Old Style\",\"Charter\",\"Bitstream Charter\",\"Sitka Text\",Cambria,\"DejaVu Serif\",Georgia,serif; } .ds-state { display:flex; align-items:center; gap:8px; font:.9rem system-ui,-apple-system,\"Segoe UI\",Roboto,\"Noto Sans\",sans-serif; color:var(--ink-2, #4a4f57); } .ds-mark { width:18px; height:18px; color:var(--ink, #15171a); }"
+    },
+    {
+      "name": "Stage Timing Bar",
+      "kind": "custom",
+      "refersTo": "timing-bar",
+      "description": "Where a reply's time went, in ink textures against the dashed 10 s listening window; overrun in vermilion.",
+      "html": "<div class=\"ds-tbar\" role=\"img\" aria-label=\"listening 1.2 s, thinking 4.0 s, voice 6.0 s\"><span class=\"ds-stt\" style=\"left:0;width:10%\"></span><span class=\"ds-llm\" style=\"left:10%;width:33.3%\"></span><span class=\"ds-tts\" style=\"left:43.3%;width:40%\"></span><span class=\"ds-late\" style=\"left:83.3%;width:10%\"></span><span class=\"ds-limit\" style=\"left:83.3%\"></span></div>",
+      "css": ".ds-tbar { position:relative; height:12px; margin:9px 0 3px; background:var(--edge-2, #e9ecf0); border-radius:2px; max-width:560px; } .ds-tbar span { position:absolute; top:0; bottom:0; } .ds-stt { background:var(--ink, #15171a); } .ds-llm { background:repeating-linear-gradient(135deg, var(--ink, #15171a) 0 3px, transparent 3px 6px); box-shadow:inset 0 0 0 1px var(--ink, #15171a); } .ds-tts { background:var(--sheet, #fbfcfd); box-shadow:inset 0 0 0 1.5px var(--ink, #15171a); } .ds-late { background:var(--problem, #d7261e); } .ds-tbar .ds-limit { top:-5px; bottom:-5px; width:0; border-left:2px dashed var(--ink, #15171a); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tabbed Manual",
+    "overview": "The admin page is a well-made manual for one desk robot. Seven sections each own a colour tab at full strength; the tabs hang off the fore edge of a single milk-white sheet, and whichever section is open lends its colour to the whole board the sheet lies on. You always know where you are because the room itself has changed colour. Everything on the sheet is ink: black text, hairline rules, drawn state marks. Vermilion is the one other colour allowed on the sheet, and it means something is wrong.\n\nDensity is that of a printed reference card, not a dashboard. Sections on the sheet are separated by rules rather than boxed, explanations are set in a book serif so they read as prose, headings and labels are condensed grotesk capitals so they read as signage, and machine values (timings, codes, commands) are set in mono. The page refuses the white-sidebar SaaS dashboard and the cartoon-robot page; it should feel like equipment documentation that someone cared about.\n\nThe page is one self-contained file served under a strict Content Security Policy: inline CSS and JS only, no web fonts, no images, no external hosts. The type stacks are therefore system stacks by design and every icon is inline SVG drawn in the page's own stroke.",
+    "keyCharacteristics": [
+      "One colour per section, at full strength, used for the tab and the board; never inside the sheet's content.",
+      "Milk-white sheet (never cream) with a hairline edge, lifted off the board by a soft two-layer shadow.",
+      "Ink-only content: state is shown by drawn marks (filled check, hollow ring, vermilion cross), not by traffic-light colour.",
+      "Three voices of type: condensed caps for heads, book serif for explanations, mono for machine values.",
+      "Engines wear fixed name plates; risky buttons stand alone at the far end of their row.",
+      "Section changes hinge in a 90 ms two-step with no easing."
+    ],
+    "rules": [
+      {
+        "name": "The Board Rule",
+        "body": "A section's hue belongs to its tab and to the board. Content on the sheet never uses a section hue for meaning or decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Alarm Rule",
+        "body": "Vermilion means a problem or a destructive action, and nothing else. Healthy and waiting states are ink and graphite.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Voices Rule",
+        "body": "Condensed caps for anything that names, serif for anything that explains, mono for anything a machine produced. Never set a sentence of explanation in condensed caps.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Sheet Rule",
+        "body": "Only the sheet, the tabs and the toasts cast shadows. Plates, inputs, buttons and blocks on the sheet are flat.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** give any new section its own full-strength hue, its own tab, and its own on-hue text colour chosen for contrast (ink or white).",
+      "**Do** keep sheet content in ink and graphite; show state with the drawn marks (filled check, hollow ring, vermilion cross) at 18px.",
+      "**Do** separate sections on the sheet with 1px hairline rules, not boxes.",
+      "**Do** set names and heads in condensed caps, explanations in the book serif (max 68ch), and machine values in mono.",
+      "**Do** give every engine a name plate with the role engraved in an ink label.",
+      "**Do** push destructive buttons to the far end of their row with the `alone` spacing.",
+      "**Do** keep touch targets at 44px minimum and keep both light and dark themes working.",
+      "**Do** draw icons as inline SVG in the page's own stroke weight; the CSP allows nothing else."
+    ],
+    "donts": [
+      "**Don't** use a section hue inside the sheet for status, emphasis or decoration.",
+      "**Don't** use vermilion for anything but problems and destructive actions.",
+      "**Don't** use a cream or warm-tinted sheet; it is milk white.",
+      "**Don't** nest a bordered box inside another bordered box on the sheet.",
+      "**Don't** add shadows to anything on the sheet.",
+      "**Don't** add easing curves or long transitions to section changes; the hinge is 90 ms in two steps.",
+      "**Don't** load web fonts, images or anything from another host."
+    ]
+  }
+}

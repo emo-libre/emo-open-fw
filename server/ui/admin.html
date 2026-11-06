@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en" data-s="home">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EMO open server</title>
+<style>
+  /* One colour per section, full strength; the open section's colour is the board the sheet lies on.
+     Vermilion is held out for problems only. Everything else is ink on a milk-white sheet. */
+  :root {
+    --h-home:#f2c230; --h-setup:#8c4a2b; --h-try:#e06a1f; --h-commands:#3d9a4a; --h-activity:#239494; --h-help:#2a3fb0; --h-expert:#6b3fa0;
+    --hue:var(--h-home); --on-hue:#15171a; --board:var(--hue);
+    --sheet:#fbfcfd; --field:#ffffff; --ink:#15171a; --ink-2:#4a4f57; --edge:#d3d8df; --edge-2:#e9ecf0;
+    --problem:#d7261e; --problem-ink:#a51d16; --slip:#c4231c;
+    --head:"Univers Condensed","Helvetica Neue Condensed","Arial Narrow","Roboto Condensed","DejaVu Sans Condensed","Liberation Sans Narrow","Nimbus Sans Narrow",system-ui,sans-serif;
+    --book:"Iowan Old Style","Charter","Bitstream Charter","Sitka Text",Cambria,"DejaVu Serif",Georgia,serif;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","DejaVu Sans Mono",monospace;
+    color-scheme:light;
+  }
+  html[data-s="setup"] { --hue:var(--h-setup); --on-hue:#ffffff; }
+  html[data-s="test"] { --hue:var(--h-try); --on-hue:#15171a; }
+  html[data-s="commands"] { --hue:var(--h-commands); --on-hue:#15171a; }
+  html[data-s="activity"] { --hue:var(--h-activity); --on-hue:#15171a; }
+  html[data-s="help"] { --hue:var(--h-help); --on-hue:#ffffff; }
+  html[data-s="expert"] { --hue:var(--h-expert); --on-hue:#ffffff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --sheet:#1b1d21; --field:#121417; --ink:#eef0f3; --ink-2:#b3b9c2; --edge:#353a42; --edge-2:#2a2e35; --problem:#ff5a4e; --problem-ink:#ff8a80; color-scheme:dark; }
+  }
+  * { box-sizing:border-box; }
+  html { background:var(--board); transition:background-color 90ms steps(2); }
+  body { margin:0; min-height:100vh; color:var(--ink); font:16px/1.5 var(--ui); font-variant-numeric:tabular-nums; caret-color:var(--ink); }
+  ::selection { background:var(--hue); color:var(--on-hue); }
+  * { scrollbar-color:var(--edge) transparent; scrollbar-width:thin; }
+  a { color:inherit; text-underline-offset:3px; }
+  [hidden] { display:none !important; }
+  .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .skip { position:absolute; left:12px; top:-80px; background:var(--ink); color:var(--sheet); padding:10px 14px; border-radius:6px; z-index:20; }
+  .skip:focus { top:12px; }
+  :focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+
+  /* ---- the desk: name bar on the board, sheet with the tab rail on its fore edge ---- */
+  .shell { max-width:1200px; margin:0 auto; padding:14px 20px 48px; }
+  .namebar { display:flex; align-items:center; gap:14px; flex-wrap:wrap; color:var(--on-hue); padding:4px 2px 14px; }
+  .namebar h1 { font:700 1.45rem/1 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.03em; margin:0; }
+  .namebar .who { margin-left:auto; font-size:.9rem; opacity:.85; }
+  .namebar button { min-height:44px; background:transparent; color:var(--on-hue); border:1px solid currentColor; }
+  .desk { display:grid; grid-template-columns:minmax(0,1fr) 172px; align-items:start; }
+  .sheet { position:relative; z-index:2; background:var(--sheet); border:1px solid var(--edge); border-radius:6px 0 6px 6px; padding:28px 32px 36px; min-height:72vh;
+    box-shadow:0 1px 2px rgba(0,0,0,.14), 0 10px 30px -8px rgba(0,0,0,.28); min-width:0; }
+  .sheet.hinge { animation:hinge 90ms steps(2); }
+  @keyframes hinge { from { transform:translateX(5px); } to { transform:none; } }
+  nav.rail { position:relative; z-index:1; display:flex; flex-direction:column; gap:5px; padding-top:22px; }
+  .tab { display:flex; align-items:center; gap:9px; width:calc(84% + 12px); min-height:48px; margin:0 0 0 -12px; padding:0 14px 0 28px; border:0; border-radius:0 8px 8px 0;
+    background:var(--th); color:var(--tho); font:600 .98rem/1.1 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.05em;
+    text-align:left; cursor:pointer; box-shadow:0 2px 1px rgba(0,0,0,.2); }
+  .tab:hover { width:calc(90% + 12px); }
+  .tab[aria-current="page"] { width:calc(100% + 12px); font-weight:700; }
+  .tab .hole { width:9px; height:9px; border-radius:50%; flex:0 0 auto; box-shadow:inset 0 0 0 1.5px currentColor; opacity:.7; }
+  .tab[aria-current="page"] .hole { background:currentColor; opacity:1; }
+  .tab.gap { margin-top:22px; }
+  .t-home { --th:var(--h-home); --tho:#15171a; } .t-setup { --th:var(--h-setup); --tho:#fff; } .t-test { --th:var(--h-try); --tho:#15171a; }
+  .t-commands { --th:var(--h-commands); --tho:#15171a; } .t-activity { --th:var(--h-activity); --tho:#15171a; } .t-help { --th:var(--h-help); --tho:#fff; } .t-expert { --th:var(--h-expert); --tho:#fff; }
+
+  /* ---- type ---- */
+  #viewtitle { font:700 clamp(2.6rem, 4.6vw, 4.2rem)/.95 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.01em; margin:0 0 6px; text-wrap:balance; }
+  #viewtitle:focus { outline:none; }
+  .viewlede { font:1.05rem/1.55 var(--book); color:var(--ink-2); margin:0 0 8px; max-width:68ch; }
+  h2 { font:700 1.12rem/1.2 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.05em; margin:0 0 8px; }
+  h3 { font:700 1rem/1.25 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.04em; margin:14px 0 4px; }
+  p { margin:0 0 .6rem; }
+  .lede, .note { font-family:var(--book); color:var(--ink-2); max-width:68ch; }
+  .note { font-size:.95rem; }
+  .muted { color:var(--ink-2); } .small { font-size:.9rem; }
+  code, pre, .num { font-family:var(--mono); font-size:.86rem; }
+  pre { margin:.5rem 0 0; padding:12px; background:var(--field); border:1px solid var(--edge); border-radius:6px; overflow:auto; white-space:pre-wrap; word-break:break-word; }
+
+  /* ---- blocks on the sheet: ruled, never boxed in boxes ---- */
+  section.block { padding:22px 0 18px; border-top:1px solid var(--edge); }
+  section.block:first-of-type { border-top:0; padding-top:12px; }
+  .two { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:0 40px; }
+  .two > section.block { border-top:1px solid var(--edge); }
+
+  /* ---- controls ---- */
+  label { display:block; color:var(--ink-2); font-size:.86rem; font-weight:600; margin:.7rem 0 .2rem; }
+  input, select, button, textarea { font:inherit; padding:9px 12px; border:1px solid var(--edge); border-radius:6px; background:var(--field); color:var(--ink); max-width:100%; }
+  input[type=text], input[type=password], input[type=number], select, textarea { width:100%; max-width:600px; }
+  input::placeholder, textarea::placeholder { color:var(--ink-2); opacity:.8; }
+  input:focus, select:focus, textarea:focus { border-color:var(--ink); outline:2px solid var(--ink); outline-offset:1px; }
+  textarea { min-height:5.5rem; font-family:var(--mono); font-size:.88rem; }
+  button { background:var(--ink); color:var(--sheet); border-color:var(--ink); cursor:pointer; font-weight:600; }
+  button:hover { filter:brightness(1.15); }
+  button.plain { background:transparent; color:var(--ink); border-color:var(--edge); }
+  button.plain:hover { border-color:var(--ink); filter:none; }
+  button.danger { background:transparent; color:var(--problem-ink); border-color:var(--problem-ink); }
+  button:disabled { opacity:.5; cursor:default; filter:none; }
+  button, input:not([type=checkbox]), select { min-height:44px; }
+  input[type=checkbox] { width:1.25rem; height:1.25rem; margin:0 .6rem 0 0; accent-color:var(--ink); flex:0 0 auto; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+  .row > * { flex:1 1 220px; }
+  .row > .fixed { flex:0 0 auto; }
+  .alone { margin-left:auto; padding-left:32px; } /* a risky button keeps its distance */
+  .check { display:flex; align-items:center; color:var(--ink); font-size:1rem; font-weight:400; margin:.9rem 0 .1rem; }
+
+  /* ---- state marks: ink means fine, a hollow ring means waiting, vermilion means a problem ---- */
+  .mark { width:18px; height:18px; flex:0 0 auto; vertical-align:-3px; }
+  .ok { color:var(--ink); } .todo { color:var(--ink-2); } .bad { color:var(--problem-ink); }
+  .slip { display:inline-block; background:var(--slip); color:#fff; font:700 .78rem/1 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.06em; padding:4px 7px; border-radius:3px; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--edge); font-size:.78rem; margin-left:8px; font-weight:600; }
+
+  /* ---- engine name plates: an engraved label, the engine in use, its state ---- */
+  .engines { list-style:none; margin:8px 0 12px; padding:0; display:grid; gap:12px; }
+  .engines li { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:4px 14px; align-items:center; padding:14px 16px; border:1px solid var(--edge); border-radius:6px; background:var(--field); }
+  .engines .label { font:700 1.02rem/1 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.08em; background:var(--ink); color:var(--sheet); padding:7px 10px 6px; border-radius:3px; min-width:7.5rem; text-align:center; }
+  .engines .uses { font:1.05rem/1.3 var(--book); overflow-wrap:anywhere; }
+  .engines .state { display:flex; align-items:center; gap:8px; font-size:.9rem; color:var(--ink-2); white-space:nowrap; }
+  .engines .why { grid-column:2 / -1; font-size:.9rem; color:var(--ink-2); font-family:var(--book); }
+  /* ---- checklist rows ---- */
+  .plates { list-style:none; margin:6px 0 10px; padding:0; }
+  .plates li { display:grid; grid-template-columns:22px minmax(0,11rem) minmax(0,1fr) auto; gap:4px 12px; align-items:baseline; padding:10px 0; border-bottom:1px solid var(--edge-2); }
+  .plates .name { font:700 .98rem/1.2 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.04em; }
+  .plates .detail { font-family:var(--book); color:var(--ink-2); font-size:.95rem; min-width:0; overflow-wrap:anywhere; }
+  .plates .time { font-family:var(--mono); font-size:.84rem; color:var(--ink-2); white-space:nowrap; }
+
+  /* ---- where the time went: stage bars against the robot's listening window ---- */
+  .heard { list-style:none; margin:4px 0 10px; padding:0; }
+  .heard li { padding:12px 0; border-bottom:1px solid var(--edge-2); }
+  .heard .said { font-family:var(--book); font-size:1.02rem; overflow-wrap:anywhere; }
+  .heard .meta { font-size:.84rem; color:var(--ink-2); display:flex; gap:12px; flex-wrap:wrap; margin-top:2px; }
+  .tbar { position:relative; height:12px; margin:9px 0 3px; background:var(--edge-2); border-radius:2px; max-width:560px; }
+  .tbar span { position:absolute; top:0; bottom:0; }
+  .s-stt { background:var(--ink); }
+  .s-llm { background:repeating-linear-gradient(135deg, var(--ink) 0 3px, transparent 3px 6px); box-shadow:inset 0 0 0 1px var(--ink); }
+  .s-vision { background:repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px); box-shadow:inset 0 0 0 1px var(--ink); }
+  .s-tts { background:var(--sheet); box-shadow:inset 0 0 0 1.5px var(--ink); }
+  .tbar span.notch { width:2px !important; background:var(--ink); box-shadow:none; }
+  .tbar .late { background:var(--problem); box-shadow:none; }
+  .tbar .limit { top:-5px; bottom:-5px; width:0; border-left:2px dashed var(--ink); }
+  .tkey .limit-key { width:0; border-left:2px dashed var(--ink); border-radius:0; }
+  .tkey { font-size:.78rem; color:var(--ink-2); display:flex; gap:6px 14px; flex-wrap:wrap; max-width:820px; }
+  .tkey i { display:inline-block; width:10px; height:10px; margin-right:5px; vertical-align:-1px; border-radius:2px; }
+
+  table { width:100%; border-collapse:collapse; font-size:.93rem; }
+  td, th { text-align:left; padding:8px 10px 8px 0; border-bottom:1px solid var(--edge-2); vertical-align:top; overflow-wrap:anywhere; }
+  th { font:700 .82rem/1.2 var(--head); font-stretch:condensed; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2); }
+  .cmd { position:relative; }
+  .cmd pre { padding-right:96px; min-height:58px; }
+  .cmd button { position:absolute; top:7px; right:7px; min-height:44px; padding:6px 14px; font-size:.85rem; }
+  .grid { display:grid; gap:0 28px; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); }
+  .preset { padding:12px 0 14px; border-bottom:1px solid var(--edge-2); }
+  .preset h3 { margin-top:4px; }
+  .engine { padding:16px 0 10px; border-top:1px solid var(--edge-2); }
+  .result { margin:10px 0 0; font-family:var(--book); font-size:1.02rem; }
+  details summary { cursor:pointer; color:var(--ink-2); font-size:.88rem; margin-top:6px; }
+  .warnbox { border:1px solid var(--edge); background:var(--sheet); border-radius:6px; padding:12px 14px; margin:0 0 14px; font-family:var(--book); }
+
+  /* ---- sign-in ---- */
+  #login { max-width:540px; margin:9vh auto 0; padding:0 16px; }
+  #login .sheet { min-height:0; border-radius:6px; }
+
+  .toast { position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--ink); color:var(--sheet); padding:11px 18px; border-radius:6px; max-width:90vw; z-index:30;
+    box-shadow:0 6px 20px -6px rgba(0,0,0,.45); }
+  .toast:empty { display:none; }
+  #alert { background:var(--slip); color:#fff; }
+
+  @media (max-width:860px) {
+    .shell { padding:10px 0 32px; }
+    .namebar { padding:4px 16px 10px; }
+    .desk { grid-template-columns:1fr; }
+    nav.rail { order:-1; flex-direction:row; gap:4px; padding:0 16px; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none;
+      -webkit-mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 36px), transparent); mask-image:linear-gradient(90deg, #000 0, #000 calc(100% - 36px), transparent); }
+    nav.rail::-webkit-scrollbar { display:none; }
+    .tab, .tab:hover { width:auto; flex:0 0 auto; min-height:44px; margin:0; padding:0 13px; border-radius:8px 8px 0 0; align-self:flex-end; box-shadow:inset 0 -6px 6px -6px rgba(0,0,0,.4); }
+    .tab[aria-current="page"] { width:auto; min-height:52px; box-shadow:none; }
+    .tab:last-child { margin-right:32px; }
+    .tab.gap { margin-top:0; margin-left:12px; }
+    .sheet { border-radius:0; border-left:0; border-right:0; padding:20px 16px 28px; }
+    .two { grid-template-columns:1fr; }
+    #viewtitle { font-size:2.6rem; }
+    .tryrow > input { flex-basis:100%; }
+    .engines li { grid-template-columns:1fr; gap:8px; }
+    .engines .label { justify-self:start; }
+    .engines .why { grid-column:1; }
+    .plates li { grid-template-columns:22px minmax(0,1fr) auto; }
+    .plates .detail { grid-column:2 / -1; }
+  }
+  @media (max-width:600px) { .namebar .who { display:none; } .namebar button { margin-left:auto; } }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior:auto !important; transition:none !important; animation:none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<div class="shell">
+<header hidden id="top" class="namebar">
+  <h1>EMO open server</h1>
+  <span class="who" id="who"></span>
+  <button class="fixed" id="logout">Sign out</button>
+</header>
+<div id="plain" class="warnbox" hidden role="note"></div>
+<div id="login" style="display:none">
+  <div class="namebar"><h1>EMO open server</h1></div>
+  <form class="sheet" id="loginform" aria-labelledby="logintitle" onsubmit="return false">
+    <h2 id="logintitle">Sign in to your EMO server</h2>
+    <p class="lede">Enter the admin token to continue.</p>
+    <label for="tok">Admin token</label>
+    <input id="tok" type="password" autocomplete="current-password" autofocus>
+    <p class="row" style="margin-top:12px"><button class="fixed" id="signin" type="submit">Sign in</button></p>
+    <p id="loginmsg" class="bad" role="alert"></p>
+    <p class="note">Where is it? On the very first start the server printed it in its console, and it is always saved in the file <code>admin_token</code> inside the server's data folder
+    (<code>data/admin_token</code> unless you changed <code>data_dir</code>). If you set <code>admin_token_env</code>, it is that environment variable's value. It stays in this browser tab only.</p>
+  </form>
+</div>
+<div class="desk" id="desk" hidden>
+  <main id="main" class="sheet" tabindex="-1">
+    <div id="app"><h2 id="viewtitle" tabindex="-1"></h2><p class="viewlede" id="viewlede"></p></div>
+  </main>
+  <nav id="nav" class="rail" aria-label="Sections"></nav>
+</div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="alert" class="toast" role="alert"></div>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var KEY = "emo-admin-token";
+  var token = "";
+  function tget() { try { return sessionStorage.getItem(KEY) || ""; } catch (e) { return ""; } }
+  function tset(v) { try { if (v) { sessionStorage.setItem(KEY, v); } else { sessionStorage.removeItem(KEY); } } catch (e) {} }
+
+  // ---- small helpers: build the page with text nodes only ----
+  function h(tag, props, kids) {
+    var e = document.createElement(tag);
+    Object.keys(props || {}).forEach(function (k) {
+      var v = props[k];
+      if (k === "class") { e.className = v; }
+      else if (k === "text") { e.textContent = v; }
+      else if (k.slice(0, 2) === "on") { e[k] = v; }
+      else if (k === "value" || k === "checked" || k === "disabled" || k === "hidden") { e[k] = v; }
+      else if (v !== null && v !== undefined) { e.setAttribute(k, v); }
+    });
+    (kids || []).forEach(function (c) { if (c === null || c === undefined) { return; } e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return e;
+  }
+  function clear(e) { while (e.firstChild) { e.removeChild(e.firstChild); } return e; }
+  // drawn state marks (one stroke weight): ok = ink check in a filled hole, todo = hollow ring, bad = vermilion cross
+  function mark(kind) {
+    var NS = "http://www.w3.org/2000/svg", s = document.createElementNS(NS, "svg");
+    s.setAttribute("viewBox", "0 0 20 20"); s.setAttribute("class", "mark " + kind); s.setAttribute("aria-hidden", "true");
+    function el(n, a) { var x = document.createElementNS(NS, n); Object.keys(a).forEach(function (k) { x.setAttribute(k, a[k]); }); s.appendChild(x); }
+    if (kind === "ok") { el("circle", { cx: 10, cy: 10, r: 9, fill: "currentColor" }); el("path", { d: "M5.8 10.4l2.8 2.8 5.6-6", fill: "none", stroke: "var(--sheet)", "stroke-width": 2, "stroke-linecap": "round", "stroke-linejoin": "round" }); }
+    else if (kind === "bad") { el("circle", { cx: 10, cy: 10, r: 9, fill: "var(--problem)" }); el("path", { d: "M7 7l6 6M13 7l-6 6", stroke: "#fff", "stroke-width": 2, "stroke-linecap": "round" }); }
+    else { el("circle", { cx: 10, cy: 10, r: 8, fill: "none", stroke: "currentColor", "stroke-width": 2 }); }
+    return s;
+  }
+  function toast(msg, bad) {
+    var t = $(bad ? "alert" : "toast"); t.textContent = ""; // a change of text is what screen readers announce
+    setTimeout(function () { t.textContent = msg; }, 30);
+    clearTimeout(t._t); t._t = setTimeout(function () { t.textContent = ""; }, bad ? 9000 : 4000);
+  }
+  var uid = 0;
+  // Make every field announce a name, every table a caption and header cells a scope, however the page was built.
+  function fixAccessibility(root) {
+    root.querySelectorAll("input,select,textarea").forEach(function (n) {
+      if (n.type === "checkbox" && n.closest("label")) { return; }
+      if (n.labels && n.labels.length) { return; }
+      if (n.getAttribute("aria-label") || n.getAttribute("aria-labelledby")) { return; }
+      if (!n.id) { n.id = "f" + (++uid); }
+      var p = n.previousElementSibling;
+      while (p && p.tagName === "DATALIST") { p = p.previousElementSibling; }
+      if (p && p.tagName === "LABEL" && !p.htmlFor && !p.querySelector("input,select,textarea")) { p.htmlFor = n.id; return; }
+      var par = n.parentElement, l = par && par.querySelector(":scope > label:not([for])");
+      if (l && !l.querySelector("input,select,textarea")) { l.htmlFor = n.id; return; }
+      n.setAttribute("aria-label", n.getAttribute("placeholder") || n.getAttribute("name") || "value");
+    });
+    root.querySelectorAll("table").forEach(function (t) {
+      if (!t.getAttribute("aria-label") && !t.querySelector("caption")) {
+        var sec = t.closest("section"), head = sec && sec.querySelector("h2,h3");
+        t.setAttribute("aria-label", head ? head.textContent : "table");
+      }
+    });
+    root.querySelectorAll("th:not([scope])").forEach(function (th) { th.setAttribute("scope", "col"); });
+  }
+  new MutationObserver(function () { requestAnimationFrame(function () { fixAccessibility($("app")); }); }).observe($("app"), { childList: true, subtree: true });
+  function api(method, path, body) {
+    var opt = { method: method, headers: { Authorization: "Bearer " + token } };
+    if (body !== undefined) { opt.headers["Content-Type"] = "application/json"; opt.body = JSON.stringify(body); }
+    return fetch(path, opt).then(function (r) {
+      return r.text().then(function (txt) {
+        var j = null; try { j = JSON.parse(txt); } catch (e) {}
+        if (r.status === 401) { var err = new Error("The token was not accepted."); err.auth = true; throw err; }
+        if (!r.ok) { throw new Error((j && j.errmessage) || ("The server answered " + r.status + ".")); }
+        return j;
+      });
+    });
+  }
+  function copyBox(text) {
+    var b = h("button", { class: "plain", text: "Copy", "aria-label": "Copy these commands", onclick: function () {
+      if (navigator.clipboard) { navigator.clipboard.writeText(text).then(function () { toast("Copied."); }, function () { toast("Select the text and copy it by hand.", true); }); }
+      else { toast("Select the text and copy it by hand.", true); }
+    } });
+    return h("div", { class: "cmd" }, [h("pre", { text: text }), b]);
+  }
+  function ago(iso) {
+    var s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000));
+    if (s < 90) { return s + " seconds ago"; } if (s < 5400) { return Math.round(s / 60) + " minutes ago"; } return Math.round(s / 3600) + " hours ago";
+  }
+  function block(title, kids) { return h("section", { class: "block" }, [title ? h("h2", { text: title }) : null].concat(kids || [])); }
+
+  // ---- where the time went: one bar per answer, drawn against the robot's ~10 s listening window ----
+  var WINDOW_MS = 10000, SCALE_MS = 12000;
+  var STAGES = [["stt", "listening"], ["llm", "thinking"], ["vision", "looking"], ["tts", "voice"]];
+  function timeBar(stages) {
+    stages = stages || {};
+    var bar = h("div", { class: "tbar", role: "img" }), at = 0, parts = [];
+    function pct(ms) { return Math.min(ms, SCALE_MS) / SCALE_MS * 100; }
+    STAGES.forEach(function (s) {
+      var ms = stages[s[0]]; if (ms === undefined || ms === null) { return; }
+      var from = Math.min(at, SCALE_MS), to = Math.min(at + ms, WINDOW_MS);
+      if (ms === 0) { bar.appendChild(h("span", { class: "s-" + s[0] + " notch", style: "left:" + pct(at) + "%" })); }
+      else if (to > from) { bar.appendChild(h("span", { class: "s-" + s[0], style: "left:" + pct(from) + "%;width:" + (pct(to) - pct(from)) + "%" })); }
+      at += ms; parts.push(s[1] + " " + (ms / 1000).toFixed(1) + " s");
+    });
+    if (at > WINDOW_MS) { bar.appendChild(h("span", { class: "late", style: "left:" + pct(WINDOW_MS) + "%;width:" + (pct(at) - pct(WINDOW_MS)) + "%" })); }
+    bar.appendChild(h("span", { class: "limit", style: "left:" + pct(WINDOW_MS) + "%" }));
+    bar.setAttribute("aria-label", parts.length ? "Time to answer after you stopped talking: " + parts.join(", ") + "." : "No timings.");
+    return { bar: bar, total: at, has: parts.length > 0 };
+  }
+  function timeKey() {
+    return h("div", { class: "tkey", "aria-hidden": "true" }, STAGES.map(function (s) { return h("span", {}, [h("i", { class: "s-" + s[0] }), s[1]]); })
+      .concat([h("span", {}, [h("i", { class: "limit-key" }), "EMO stops waiting (about 10 s)"]), h("span", {}, [h("i", { style: "background:var(--problem)" }), "too late"])]));
+  }
+  function heardItem(e) {
+    var tb = timeBar(e.stages);
+    return h("li", {}, [
+      h("div", { class: "said", text: e.heard ? "“" + e.heard + "”" : "(nothing heard)" }),
+      h("div", { class: "meta" }, [h("span", { text: ago(e.at) }), h("span", { text: e.result }),
+        tb.has ? h("span", { class: "num", text: "answered in " + (tb.total / 1000).toFixed(1) + " s" }) : null, h("span", { text: "robot " + e.robot }),
+        tb.has && tb.total >= WINDOW_MS ? h("span", { class: "slip", text: "too slow" }) : null]),
+      tb.has ? tb.bar : null
+    ]);
+  }
+
+  // ---- tabs ----
+  var tabs = [["home", "Home", "Is EMO fine? Try a phrase, hear the voice, see what EMO heard."],
+    ["setup", "Setup", "Pick what EMO listens, thinks and speaks with."],
+    ["test", "Try it", "Test phrases, the voice and every engine."],
+    ["commands", "Your commands", "Teach EMO phrases of your own."],
+    ["activity", "Activity", "What EMO heard and how long each answer took."],
+    ["help", "Help", "Getting EMO to find this computer, and installing the engines."],
+    ["expert", "Expert", "For tinkerers. Nothing here is needed for a normal setup."]];
+  var views = {};
+  var current = "home";
+  function show(name, keepFocus) {
+    current = name;
+    document.documentElement.setAttribute("data-s", name);
+    clear($("nav"));
+    tabs.forEach(function (t) {
+      $("nav").appendChild(h("button", { class: "tab t-" + t[0] + (t[0] === "expert" ? " gap" : ""), "aria-current": t[0] === name ? "page" : null, onclick: function () { show(t[0]); } },
+        [h("span", { class: "hole", "aria-hidden": "true" }), t[1]]));
+    });
+    Object.keys(views).forEach(function (k) { views[k].root.hidden = k !== name; });
+    var tab = tabs.filter(function (t) { return t[0] === name; })[0];
+    $("viewtitle").textContent = tab[1]; $("viewlede").textContent = tab[2]; document.title = tab[1] + " - EMO open server";
+    var sheet = $("main"); sheet.classList.remove("hinge"); void sheet.offsetWidth; sheet.classList.add("hinge");
+    var rail = $("nav"), cur = rail.querySelector("[aria-current]");
+    if (cur && rail.scrollWidth > rail.clientWidth) { rail.scrollLeft = Math.max(0, cur.offsetLeft - (rail.clientWidth - cur.offsetWidth) / 2); /* offsetLeft is from the rail: it is positioned */ }
+    if (!keepFocus) { $("viewtitle").focus(); } // keyboard and screen-reader users land on the new section
+    if (views[name].load) { views[name].load(); }
+  }
+
+  // ---- shared: try a phrase, hear the voice ----
+  var LANGS = null;
+  function langSelect() {
+    var sel = h("select", { "aria-label": "Language" });
+    function fill(list) { var v = sel.value || "en"; clear(sel); list.forEach(function (l) { sel.appendChild(h("option", { value: l.code, text: l.code })); }); sel.value = v; if (!sel.value) { sel.value = "en"; } }
+    fill([{ code: "en" }]);
+    sel.refresh = function () {
+      if (LANGS) { fill(LANGS); return; }
+      api("GET", "/admin/languages").then(function (d) { LANGS = d.languages; fill(LANGS); }).catch(function () {});
+    };
+    return sel;
+  }
+  function explain(r) {
+    if (!r || r.understood === false) { return "Not a command. " + (r && r.then ? "Then " + r.then + "." : ""); }
+    var what = r.custom ? "your command \u201c" + r.custom + "\u201d" : "\u201c" + String(r.intent || "a command").replace(/_/g, " ") + "\u201d";
+    var extra = r.needs ? " The server fetches the " + r.needs + (r.city ? " for " + r.city : "") + " first." : "";
+    return "Understood as " + what + "." + extra;
+  }
+  function tryPhrase(lang, withRaw) {
+    var text = h("input", { type: "text", placeholder: "set a timer for ten minutes", autocomplete: "off" }), out = h("p", { class: "result", "aria-live": "polite" }), res = h("pre", { hidden: true });
+    function parse() {
+      if (!text.value.trim()) { text.focus(); return; }
+      api("GET", "/admin/parse?lang=" + encodeURIComponent(lang.value || "en") + "&text=" + encodeURIComponent(text.value)).then(function (r) {
+        out.textContent = explain(r); res.textContent = JSON.stringify(r, null, 2); if (withRaw) { res.hidden = false; }
+      }).catch(function (e) { out.textContent = e.message; });
+    }
+    text.onkeydown = function (e) { if (e.key === "Enter") { parse(); } };
+    var raw = withRaw ? null : h("details", {}, [h("summary", { text: "What EMO is sent, exactly" }), res]);
+    res.hidden = !!withRaw; // on Try it the raw reply shows below once there is one; on Home it waits inside "details"
+    return { el: h("div", {}, [h("label", { text: "Say something to EMO (typed)" }), h("div", { class: "row tryrow" }, [text, h("div", { class: "fixed" }, [lang]), h("button", { class: "fixed", text: "Try", onclick: parse })]), out, raw]),
+      res: res, parse: parse };
+  }
+  function hearVoice(lang) {
+    var say = h("input", { type: "text", value: "Hello, I am EMO.", maxlength: "200" }), sayMsg = h("span", { class: "muted small", "aria-live": "polite" });
+    var go = h("button", { class: "fixed plain", text: "Speak", onclick: function () {
+      sayMsg.textContent = "Asking the voice...";
+      fetch("/admin/say?lang=" + encodeURIComponent(lang.value || "en") + "&text=" + encodeURIComponent(say.value), { headers: { Authorization: "Bearer " + token } })
+        .then(function (r) { if (!r.ok) { throw new Error("The voice is not available (" + r.status + ")."); } return r.blob(); })
+        .then(function (b) { sayMsg.textContent = ""; new Audio(URL.createObjectURL(b)).play(); }).catch(function (e) { sayMsg.textContent = e.message; });
+    } });
+    return h("div", {}, [h("label", { text: "Hear EMO's voice say" }), h("div", { class: "row" }, [say, go]), sayMsg]);
+  }
+  // self-test results as plate rows; plates already on the list (by key) are updated in place
+  function engineCheck(list, btn, names) {
+    btn.disabled = true; btn.textContent = "Checking...";
+    return api("GET", "/admin/selftest").then(function (d) {
+      var keys = Object.keys(d.results).sort(), byKey = {};
+      list.querySelectorAll("li[data-key]").forEach(function (li) { byKey[li.getAttribute("data-key")] = li; });
+      if (!names) { clear(list); byKey = {}; }
+      if (!keys.length && !names) { list.appendChild(h("li", {}, [mark("todo"), h("span", { class: "name", text: "Nothing to check" }), h("span", { class: "detail", text: "Set up an engine first." }), h("span")])); }
+      keys.forEach(function (k) { var r = d.results[k];
+        var li = h("li", { "data-key": k }, [mark(r.ok ? "ok" : "bad"), h("span", { class: "name", text: (names && names[k]) || k.replace(/_/g, " ") }),
+          h("span", { class: "detail" }, r.ok ? ["Works"] : [h("span", { class: "slip", text: "Problem" }), " " + r.error]), h("span", { class: "time", text: r.ok ? r.ms + " ms" : "" })]);
+        if (byKey[k]) { list.replaceChild(li, byKey[k]); } else { list.appendChild(li); }
+      });
+    }).catch(fail).then(function () { btn.disabled = false; btn.textContent = "Check again"; });
+  }
+  // the three engines an owner cares about, by their checklist names and self-test keys
+  var ENGINES = [["speech_to_text", "Speech has ears", "Listening"], ["language_model", "Conversation", "Thinking"], ["text_to_speech", "Speech has a voice", "Voice"]];
+  var ENGINE_NAMES = {}; ENGINES.forEach(function (x) { ENGINE_NAMES[x[0]] = x[2]; }); ENGINE_NAMES.weather = "Weather"; ENGINE_NAMES.news = "News";
+  function checklist(checks) {
+    return h("ul", { class: "plates" }, checks.map(function (c) {
+      return h("li", {}, [mark(c.ok ? "ok" : "todo"), h("span", { class: "name", text: c.name }), h("span", { class: "detail", text: c.detail || "" }), h("span")]);
+    }));
+  }
+
+  // ================= HOME =================
+  // a plain description of the engine a backend block uses
+  function engineUses(kind, b) {
+    b = b || {}; var t = b.type || "none", o = b.openai || {}, hst = host(b);
+    if (t === "none") { return "Nothing chosen yet"; }
+    if (t === "mock") { return "A test stand-in"; }
+    if (t === "command") { return "A program set in the config file"; }
+    if (t === "whispercpp") { return "whisper.cpp on this computer"; }
+    if (t === "espeak") { return "espeak-ng on this computer"; }
+    if (t === "piper") { var m = ((b.piper || {}).model || "").split("/").pop().replace(/\.onnx$/, ""); return "Piper on this computer" + (m ? ", voice " + m : ""); }
+    if (t === "google") { return "Google Cloud (online)"; }
+    if (t === "elevenlabs") { return "ElevenLabs (online)"; }
+    if (t === "anthropic") { return "Claude" + ((b.anthropic || {}).model ? " " + b.anthropic.model : "") + " (online)"; }
+    if (t === "openai") {
+      var local = /^(127\.0\.0\.1|localhost)(:|$)/.test(hst), what = o.model || (kind === "tts" ? "a voice server" : "a model");
+      if (hst === "127.0.0.1:11434" || hst === "localhost:11434") { return what + " in Ollama on this computer"; }
+      return what + (local ? " on this computer" : hst ? " at " + hst + " (online)" : "");
+    }
+    return t;
+  }
+  function homeView() {
+    var root = h("div"), robot = h("p", { class: "lede" }), plates = h("ul", { class: "engines" }), more = h("p", { class: "note" });
+    var heard = h("ul", { class: "heard" }), heardNote = h("p", { class: "note" });
+    var checkBtn = h("button", { class: "plain fixed", text: "Check the engines now" });
+    var lang = langSelect(), tp = tryPhrase(lang, false);
+    function plate(key, label, uses, kind, why) {
+      var st = h("span", { class: "state" }, [mark(kind), kind === "ok" ? "Ready" : kind === "bad" ? "Problem" : "Not set up"]);
+      return h("li", { "data-key": key }, [h("span", { class: "label", text: label }), h("span", { class: "uses", text: uses }), st, why ? h("span", { class: "why", text: why }) : null]);
+    }
+    checkBtn.onclick = function () {
+      checkBtn.disabled = true; checkBtn.textContent = "Checking...";
+      api("GET", "/admin/selftest").then(function (d) {
+        Object.keys(d.results).sort().forEach(function (k) {
+          var r = d.results[k], old = plates.querySelector('li[data-key="' + k + '"]');
+          var uses = old ? old.querySelector(".uses").textContent : (ENGINE_NAMES[k] || k);
+          var li = plate(k, ENGINE_NAMES[k] || k.replace(/_/g, " "), uses, r.ok ? "ok" : "bad", r.ok ? null : r.error);
+          if (r.ok) { li.querySelector(".state").lastChild.textContent = "Works, " + r.ms + " ms"; }
+          if (old) { plates.replaceChild(li, old); } else { plates.appendChild(li); }
+        });
+      }).catch(fail).then(function () { checkBtn.disabled = false; checkBtn.textContent = "Check again"; });
+    };
+    root.appendChild(h("div", { class: "two" }, [
+      h("div", {}, [block("Is everything working?", [robot, plates, more, h("div", { class: "row" }, [checkBtn]),
+        h("p", { class: "note small", text: "Checking sends one tiny request to each engine. Online ones may count it against your allowance." })])]),
+      h("div", {}, [block("Try a phrase", [tp.el]), block("Hear the voice", [hearVoice(lang)])])
+    ]));
+    root.appendChild(block("Recently", [heardNote, heard, timeKey(), h("p", { class: "row", style: "margin-top:10px" }, [h("button", { class: "plain fixed", text: "See all activity", onclick: function () { show("activity"); } })])]));
+    function load() {
+      lang.refresh();
+      api("GET", "/admin/robots").then(function (d) {
+        clear(robot);
+        if (!d.robots.length) { robot.appendChild(mark("todo")); robot.appendChild(document.createTextNode(" EMO has not contacted this server yet. Finish Setup, then restart EMO. Help explains how to point it here.")); }
+        else { d.robots.forEach(function (r, i) { if (i) { robot.appendChild(h("br")); } robot.appendChild(mark("ok")); robot.appendChild(document.createTextNode(" EMO is connected, last heard from " + ago(r.last_seen) + " (robot ending " + r.id.slice(-4) + ").")); }); }
+      }).catch(fail);
+      Promise.all([api("GET", "/admin/setup"), api("GET", "/admin/config")]).then(function (r) {
+        var byName = {}; r[0].checks.forEach(function (c) { byName[c.name] = c; });
+        var be = (r[1].config || {}).backends || {}, kinds = { speech_to_text: "stt", language_model: "llm", text_to_speech: "tts" };
+        clear(plates);
+        ENGINES.forEach(function (x) {
+          var c = byName[x[1]], ok = !!(c && c.ok), uses = engineUses(kinds[x[0]], be[kinds[x[0]]]);
+          if (x[0] === "text_to_speech" && be.tts_fallback && be.tts_fallback.type && be.tts_fallback.type !== "none") { uses += "; backup: " + engineUses("tts", be.tts_fallback); }
+          plates.appendChild(plate(x[0], x[2], uses, ok ? "ok" : "todo", ok ? null : "Choose one on Setup."));
+        });
+        var engineNames = ENGINES.map(function (x) { return x[1]; });
+        var left = r[0].checks.filter(function (c) { return !c.ok && engineNames.indexOf(c.name) < 0; }).length;
+        clear(more);
+        if (left) { more.appendChild(document.createTextNode(left + (left === 1 ? " more setup item is" : " more setup items are") + " open. ")); more.appendChild(h("a", { href: "#", text: "See the checklist on Setup", onclick: function (e) { e.preventDefault(); show("setup"); } })); }
+        else { more.textContent = "Every setup item is done."; }
+      }).catch(fail);
+      api("GET", "/admin/activity").then(function (d) {
+        clear(heard);
+        heardNote.textContent = !d.enabled ? "Off. Turn on \u201cShow what EMO heard\u201d on the Expert tab, save and restart." : (d.entries.length ? "Bars show the time to answer after you stopped talking." : "Nothing yet. Talk to EMO and come back.");
+        d.entries.slice(0, 3).forEach(function (e) { heard.appendChild(heardItem(e)); });
+      }).catch(fail);
+    }
+    return { root: root, load: load };
+  }
+
+  // ================= SETUP =================
+  var CFG = null, DET = null, KEYS = {};
+  var HOST_GROQ = "api.groq.com";
+  function host(c) { try { return new URL(((c.openai || {}).base_url) || "").host; } catch (e) { return ""; } }
+  var P = {
+    stt: [
+      { id: "none", label: "Off (the robot cannot understand speech)", match: function (c) { return !c.type || c.type === "none"; }, build: function () { return { type: "none" }; }, fields: [] },
+      { id: "whispercpp", label: "whisper.cpp on this computer (private, recommended)", type: "whispercpp", block: "whispercpp",
+        help: "The server starts and watches whisper.cpp for you. You only need the program and one model file (see Help).",
+        fields: [{ k: "model", label: "Model file (full path)", ph: "/home/you/whisper.cpp/models/ggml-base.en.bin", list: "models" }, { k: "binary", label: "whisper-server program (only if it is not on your PATH)", ph: "/home/you/whisper.cpp/build/bin/whisper-server" }, { k: "language", label: "Language (empty = the robot's language, auto = detect)", ph: "" }] },
+      { id: "openai", label: "A speech server on my network (OpenAI-compatible)", type: "openai", block: "openai",
+        fields: [{ k: "base_url", label: "Address", def: "http://127.0.0.1:8000/v1" }, { k: "model", label: "Model", def: "whisper-1" }, { k: "api_key_env", label: "Key name (only if it needs a key)", ph: "MY_STT_KEY", keyname: true }] },
+      { id: "groq", label: "Groq (free online account)", type: "openai", block: "openai", fixed: { base_url: "https://" + HOST_GROQ + "/openai/v1", api_key_env: "GROQ_API_KEY" }, key: "GROQ_API_KEY",
+        fields: [{ k: "model", label: "Model", def: "whisper-large-v3-turbo" }], isThis: function (c) { return host(c) === HOST_GROQ; } },
+      { id: "google", label: "Google Cloud Speech-to-Text", type: "google", block: "google", fixed: { api_key_env: "GOOGLE_API_KEY" }, key: "GOOGLE_API_KEY", fields: [] }
+    ],
+    llm: chatProviders("llama3.2"),
+    vision: chatProviders("llava"),
+    tts: [
+      { id: "none", label: "Off (the robot cannot speak replies)", match: function (c) { return !c.type || c.type === "none"; }, fields: [] },
+      { id: "espeak", label: "espeak-ng (instant, robotic, many languages)", type: "espeak", block: "espeak", help: "Needs espeak-ng and lame installed. The voice follows the robot's language.",
+        fields: [{ k: "speed", label: "Speed (80-450)", def: "165", int: true }, { k: "pitch", label: "Pitch (0-99)", def: "60", int: true }, { k: "voice", label: "Voice (empty = by language)", ph: "" }] },
+      { id: "piper", label: "Piper (small natural voices)", type: "piper", block: "piper", help: "Needs Piper installed and a voice file (.onnx).",
+        fields: [{ k: "model", label: "Voice file (full path)", ph: "/home/you/piper/en_US-lessac-medium.onnx", list: "voices" }] },
+      { id: "google", label: "Google Cloud Text-to-Speech", type: "google", block: "google", fixed: { api_key_env: "GOOGLE_API_KEY" }, key: "GOOGLE_API_KEY", fields: [{ k: "voice", label: "Voice (empty = Google's default for the language)" }] },
+      { id: "elevenlabs", label: "ElevenLabs", type: "elevenlabs", block: "elevenlabs", fixed: { api_key_env: "ELEVENLABS_API_KEY" }, key: "ELEVENLABS_API_KEY", fields: [{ k: "voice_id", label: "Voice ID" }] },
+      { id: "openai", label: "A speech server (OpenAI-compatible)", type: "openai", block: "openai", fields: [{ k: "base_url", label: "Address", def: "http://127.0.0.1:8001/v1" }, { k: "model", label: "Model", def: "tts-1" }, { k: "voice", label: "Voice", def: "alloy" }, { k: "api_key_env", label: "Key name (if needed)", keyname: true }] }
+    ],
+    weather: [
+      { id: "none", label: "Off", match: function (c) { return !c.type || c.type === "none"; }, fields: [] },
+      { id: "open-meteo", label: "Open-Meteo (free, no key)", type: "open-meteo", block: "open_meteo", fields: [] },
+      { id: "openweathermap", label: "OpenWeatherMap (free key)", type: "openweathermap", block: "openweathermap", fixed: { api_key_env: "OPENWEATHER_API_KEY" }, key: "OPENWEATHER_API_KEY", fields: [] },
+      { id: "weatherapi", label: "WeatherAPI.com (free key)", type: "weatherapi", block: "weatherapi", fixed: { api_key_env: "WEATHERAPI_KEY" }, key: "WEATHERAPI_KEY", fields: [] }
+    ],
+    news: [
+      { id: "none", label: "Off", match: function (c) { return !c.type || c.type === "none"; }, fields: [] },
+      { id: "rss", label: "News feeds (RSS)", type: "rss", block: "rss", fields: [{ k: "feeds", label: "One feed address per line", lines: true, def: "https://feeds.bbci.co.uk/news/world/rss.xml" }], extra: { count: 3 } }
+    ],
+    image: [
+      { id: "none", label: "Off", match: function (c) { return !c.type || c.type === "none"; }, fields: [] },
+      { id: "pollinations", label: "Pollinations (free, no key; the prompt goes to that service)", type: "pollinations", block: "pollinations", fields: [] },
+      { id: "sdwebui", label: "Stable Diffusion WebUI on my network", type: "sdwebui", block: "sdwebui", fields: [{ k: "base_url", label: "Address", def: "http://127.0.0.1:7860" }] }
+    ]
+  };
+  function chatProviders(defModel) {
+    return [
+      { id: "none", label: "Off", match: function (c) { return !c.type || c.type === "none"; }, fields: [] },
+      { id: "ollama", label: "Ollama on this computer (private)", type: "openai", block: "openai", fixed: { base_url: "http://127.0.0.1:11434/v1" }, fields: [{ k: "model", label: "Model", def: defModel, list: "ollama" }],
+        isThis: function (c) { return host(c) === "127.0.0.1:11434" || host(c) === "localhost:11434"; } },
+      { id: "groq", label: "Groq (free online account)", type: "openai", block: "openai", fixed: { base_url: "https://" + HOST_GROQ + "/openai/v1", api_key_env: "GROQ_API_KEY" }, key: "GROQ_API_KEY",
+        fields: [{ k: "model", label: "Model", def: "llama-3.1-8b-instant" }], isThis: function (c) { return host(c) === HOST_GROQ; } },
+      { id: "gemini", label: "Google Gemini (free tier)", type: "openai", block: "openai", fixed: { base_url: "https://generativelanguage.googleapis.com/v1beta/openai/", api_key_env: "GEMINI_API_KEY" }, key: "GEMINI_API_KEY",
+        fields: [{ k: "model", label: "Model (check Google's current names)", def: "gemini-2.0-flash" }], isThis: function (c) { return host(c).indexOf("generativelanguage.googleapis.com") === 0; } },
+      { id: "openrouter", label: "OpenRouter (free models available)", type: "openai", block: "openai", fixed: { base_url: "https://openrouter.ai/api/v1", api_key_env: "OPENROUTER_API_KEY" }, key: "OPENROUTER_API_KEY",
+        fields: [{ k: "model", label: "Model (check OpenRouter's current names)", ph: "" }], isThis: function (c) { return host(c) === "openrouter.ai"; } },
+      { id: "anthropic", label: "Anthropic Claude (paid)", type: "anthropic", block: "anthropic", fixed: { api_key_env: "ANTHROPIC_API_KEY" }, key: "ANTHROPIC_API_KEY", fields: [{ k: "model", label: "Model (check Anthropic's current names)", ph: "" }] },
+      { id: "openai", label: "Another server (OpenAI-compatible)", type: "openai", block: "openai", fields: [{ k: "base_url", label: "Address", def: "http://127.0.0.1:8080/v1" }, { k: "model", label: "Model" }, { k: "api_key_env", label: "Key name (if needed)", keyname: true }] }
+    ];
+  }
+  // which provider does this saved block belong to?
+  function detect(list, c) {
+    c = c || {};
+    var best = null;
+    list.forEach(function (p) {
+      if (p.match) { if (p.match(c)) { best = best || p; } return; }
+      if (p.type !== c.type) { return; }
+      if (p.isThis) { if (p.isThis(c[p.block] || c)) { best = p; } return; }
+    });
+    if (best) { return best; }
+    // the generic one of the same type
+    for (var i = 0; i < list.length; i++) { if (list[i].type === c.type && !list[i].isThis && !list[i].match) { return list[i]; } }
+    return list[0];
+  }
+
+  function serviceCard(kind, title, note) {
+    var list = P[kind], saved = (CFG.backends || {})[kind] || {};
+    if (saved.type && saved.type !== "none" && !list.some(function (p) { return p.type === saved.type; })) {
+      list = [{ id: "keep", keep: true, label: "As set in the config file (" + saved.type + ")", help: "This engine is set in the config file and cannot be changed here. Saving keeps it exactly as it is.",
+        match: function (c) { return c.type === saved.type; }, fields: [] }].concat(list);
+    }
+    var sel = h("select"), body = h("div"), keyBox = h("div");
+    list.forEach(function (p) { sel.appendChild(h("option", { value: p.id, text: p.label })); });
+    var cur = detect(list, saved);
+    sel.value = cur.id;
+    var inputs = {}, keyInput = null;
+    function listFor(name) {
+      var d = DET || {};
+      if (name === "models") { return d.whisper_models || []; }
+      if (name === "voices") { return d.piper_voices || []; }
+      if (name === "ollama") { return ((d.ollama || {}).models) || []; }
+      return [];
+    }
+    function drawFields() {
+      var p = list.filter(function (x) { return x.id === sel.value; })[0];
+      clear(body); clear(keyBox); inputs = {};
+      if (p.help) { body.appendChild(h("p", { class: "note small", text: p.help })); }
+      var blockSaved = (p === cur || detect(list, saved) === p) ? ((saved[p.block] || {})) : {};
+      p.fields.forEach(function (f) {
+        var v = blockSaved[f.k]; if (v === undefined || v === null) { v = f.def || ""; }
+        var node;
+        if (f.lines) { node = h("textarea", { value: Array.isArray(v) ? v.join("\n") : String(v) }); }
+        else { node = h("input", { type: "text", value: String(v), placeholder: f.ph || "", autocomplete: "off" }); }
+        if (f.list) {
+          var id = "dl-" + kind + "-" + f.list, dl = h("datalist", { id: id });
+          listFor(f.list).forEach(function (x) { dl.appendChild(h("option", { value: x })); });
+          node.setAttribute("list", id); body.appendChild(dl);
+        }
+        inputs[f.k] = { node: node, f: f };
+        body.appendChild(h("label", { text: f.label })); body.appendChild(node);
+      });
+      if (p.key) {
+        keyInput = h("input", { type: "password", autocomplete: "new-password", placeholder: KEYS[p.key] ? "Already saved - type a new key to replace it" : "Paste your key here" });
+        var chip = h("span", { class: "pill " + (KEYS[p.key] ? "ok" : "todo"), text: KEYS[p.key] ? "key saved" : "no key yet" });
+        keyInput.id = "key-" + kind;
+        keyBox.appendChild(h("label", { for: "key-" + kind }, ["API key (" + p.key + ")", chip]));
+        keyBox.appendChild(h("div", { class: "row" }, [keyInput, h("button", { class: "fixed", text: "Save key", onclick: function () {
+          if (!keyInput.value) { toast("Paste a key first.", true); return; }
+          api("PUT", "/admin/secrets", { name: p.key, value: keyInput.value }).then(function (d) {
+            KEYS = d.names || KEYS; keyInput.value = ""; chip.textContent = "key saved"; chip.className = "pill ok"; toast("Key saved on this computer. It is never shown again.");
+          }).catch(fail);
+        } })]));
+        keyBox.appendChild(h("p", { class: "note small", text: "The key is stored in the server's data folder (private file) and is never shown in this page again." }));
+      }
+    }
+    sel.onchange = drawFields;
+    drawFields();
+    function get() {
+      var p = list.filter(function (x) { return x.id === sel.value; })[0];
+      if (p.keep) { return JSON.parse(JSON.stringify(saved)); }
+      if (p.id === "none") { return { type: "none" }; }
+      var base = (detect(list, saved) === p) ? JSON.parse(JSON.stringify(saved)) : {};
+      var out = base; out.type = p.type;
+      var blk = out[p.block] || {};
+      Object.keys(p.fixed || {}).forEach(function (k) { blk[k] = p.fixed[k]; });
+      Object.keys(inputs).forEach(function (k) {
+        var f = inputs[k].f, v = inputs[k].node.value.trim();
+        if (f.lines) { blk[k] = v ? v.split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean) : []; return; }
+        if (f.int) { if (v === "") { delete blk[k]; } else { blk[k] = parseInt(v, 10); } return; }
+        if (v === "") { delete blk[k]; } else { blk[k] = v; }
+      });
+      out[p.block] = blk;
+      Object.keys(p.extra || {}).forEach(function (k) { if (out[k] === undefined) { out[k] = p.extra[k]; } });
+      return out;
+    }
+    var el = h("div", { class: "engine" }, [h("h3", { text: title }), note ? h("p", { class: "note small", text: note }) : null, sel, body, keyBox]);
+    return { el: el, get: get, kind: kind };
+  }
+  // Save + restart controls shared by Setup and Expert; build(out) fills in what that page owns.
+  function saveBar(meta, build) {
+    var msg = h("p", { class: "muted", "aria-live": "polite" }), save = h("button", { class: "fixed", text: "Save settings", disabled: !meta.can_edit });
+    var restart = h("button", { class: "plain fixed", text: "Restart the server now", hidden: true });
+    save.onclick = function () {
+      save.disabled = true;
+      api("PUT", "/admin/config", build()).then(function () {
+        msg.className = "ok"; msg.textContent = "Saved. A copy of the old settings was kept next to the file. Restart for the changes to take effect."; restart.hidden = false; toast("Saved.");
+      }).catch(function (e) { msg.className = "bad"; msg.textContent = e.message; fail(e); }).then(function () { save.disabled = !meta.can_edit; });
+    };
+    restart.onclick = function () {
+      restart.disabled = true; msg.className = "muted"; msg.textContent = "Restarting...";
+      api("POST", "/admin/restart", {}).then(function () { waitBack(msg, restart); }).catch(fail);
+    };
+    return block(null, [h("div", { class: "row" }, [save, restart]), msg]);
+  }
+  function readOnlyNote(meta) {
+    return meta.can_edit ? null : block("Settings are read-only", [h("p", { class: "lede", text: "To change settings from this page, add \"admin_allow_edit\": true to the config file (" + (meta.config_path || "config.json") + ") and restart the server. Until then this page only shows what is set." })]);
+  }
+
+  function setupView() {
+    var root = h("div"), form = h("div");
+    root.appendChild(form);
+    var cards = [], CHECKS = [];
+    function load() {
+      Promise.all([api("GET", "/admin/config"), api("GET", "/admin/detect"), api("GET", "/admin/secrets"), api("GET", "/admin/presets"), api("GET", "/admin/setup")]).then(function (r) {
+        CFG = r[0].config; DET = r[1]; KEYS = r[2].names || {}; CHECKS = r[4].checks || [];
+        draw(r[0], r[3].presets);
+      }).catch(fail);
+    }
+    function field(label, value, ph) { var i = h("input", { type: "text", value: value || "", placeholder: ph || "", autocomplete: "off" }); return { i: i, row: [h("label", { text: label }), i] }; }
+    function draw(meta, presets) {
+      clear(form);
+      var ro = readOnlyNote(meta); if (ro) { form.appendChild(ro); }
+      form.appendChild(block("Checklist", [h("p", { class: "lede", text: "What is done and what is still open. Hollow rings are open items." }), checklist(CHECKS)]));
+      // quick start
+      var grid = h("div", { class: "grid" });
+      presets.forEach(function (p) {
+        grid.appendChild(h("div", { class: "preset" }, [h("h3", { text: p.title }), h("p", { class: "note small", text: p.about }), h("button", { class: "plain", text: "Use this", onclick: function () {
+          api("GET", "/admin/presets/" + p.id).then(function (d) { CFG.backends = d.backends; draw(meta, presets); toast("Filled in. Check the details, add keys, then Save."); }).catch(fail);
+        } })]));
+      });
+      form.appendChild(block("Step 1: Start from a ready-made set", [h("p", { class: "lede", text: "Pick a starting point. It only fills in the choices below; nothing changes until you press Save." }), grid]));
+
+      // address
+      var ips = meta.lan_ips || [];
+      var addr = block("Step 2: This computer's address", [h("p", { class: "lede", text: ips.length ? "Found on this computer: " + ips.join(", ") + ". Use the one on the same network as your robot." : "Could not find a private address; type it in." })]);
+      var ipSel = h("select", { "aria-label": "Addresses found" });
+      var curIp = (CFG.public_host || "").split(":")[0];
+      if (ips.indexOf(curIp) < 0) { ipSel.appendChild(h("option", { value: "", text: "Pick one of the addresses found..." })); }
+      ips.forEach(function (ip) { ipSel.appendChild(h("option", { value: ip, text: ip })); });
+      ipSel.value = ips.indexOf(curIp) >= 0 ? curIp : "";
+      var ipText = field("Address", curIp, "192.168.1.10");
+      ipSel.onchange = function () { if (ipSel.value) { ipText.i.value = ipSel.value; } };
+      if (ips.length) { addr.appendChild(ipSel); }
+      ipText.row.forEach(function (x) { addr.appendChild(x); });
+      form.appendChild(addr);
+
+      // engines
+      cards = [
+        serviceCard("stt", "Listening (speech-to-text)", "Turns what you say into text."),
+        serviceCard("llm", "Chatting (language model)", "Answers when you just talk to the robot. Commands never need it."),
+        serviceCard("tts", "Speaking (voice)", "Turns replies into the robot's voice."),
+        serviceCard("weather", "Weather", "Used when you ask about the weather."),
+        serviceCard("news", "News", "Used when you ask what's new."),
+        serviceCard("vision", "Photos (describe what the robot sees)", "Optional. Needs a model that can look at pictures."),
+        serviceCard("image", "Drawing", "Optional. Used when the robot draws for you.")
+      ];
+      form.appendChild(block("Step 3: What EMO uses", [h("p", { class: "lede", text: "Each one is a plug: a program on this computer, a model server, or an online service with your own key." })].concat(cards.map(function (c) { return c.el; }))));
+      form.appendChild(saveBar(meta, function () {
+        var ip = ipText.i.value.trim();
+        // start from everything saved, so engines this page does not show (a fallback voice, for one) are kept
+        var out = { backends: JSON.parse(JSON.stringify(CFG.backends || {})) };
+        cards.forEach(function (c) { out.backends[c.kind] = c.get(); });
+        if (ip) { out.public_host = ip + ":8443"; out.audio_base_url = "http://" + ip + ":8080"; }
+        return out;
+      }));
+      form.appendChild(h("p", { class: "note small" }, ["More options (what EMO keeps, the DNS helper, capture) are on the ", h("a", { href: "#", text: "Expert", onclick: function (e) { e.preventDefault(); show("expert"); } }), " tab."]));
+    }
+    return { root: root, load: load };
+  }
+  function waitBack(msg, btn) {
+    var tries = 0;
+    (function poll() {
+      tries++;
+      api("GET", "/admin/status").then(function () { msg.className = "ok"; msg.textContent = "Back up with the new settings."; if (btn) { btn.disabled = false; btn.hidden = true; } toast("Server restarted."); show(current, true); })
+        .catch(function () { if (tries > 40) { msg.className = "bad"; msg.textContent = "The server did not come back. Start it again by hand."; } else { setTimeout(poll, 1500); } });
+    })();
+  }
+
+  // ================= TRY IT =================
+  function testView() {
+    var root = h("div");
+    var out = h("ul", { class: "plates" }), runBtn = h("button", { class: "fixed", text: "Check every engine" });
+    runBtn.onclick = function () { engineCheck(out, runBtn); };
+    var lang = langSelect(), tp = tryPhrase(lang, true);
+    root.appendChild(block("Try a phrase", [h("p", { class: "lede", text: "See what EMO would be told for something you say. Nothing is sent to the robot or to any online service." }), tp.el, tp.res]));
+    root.appendChild(block("Hear the voice", [hearVoice(lang)]));
+    root.appendChild(block("Check the engines", [h("p", { class: "lede", text: "Sends one tiny request to each engine you set up. Online services may count it against your allowance." }), h("div", { class: "row" }, [runBtn]), out]));
+    function load() { lang.refresh(); }
+    return { root: root, load: load };
+  }
+
+  // ================= YOUR COMMANDS =================
+  function commandsView() {
+    var root = h("div"), list = h("div"), msg = h("p", { class: "muted", "aria-live": "polite" }), data = [];
+    var saveBtn = h("button", { class: "fixed", text: "Save commands" });
+    function draw() {
+      clear(list);
+      data.forEach(function (c, i) {
+        var name = h("input", { type: "text", value: c.name, placeholder: "party" }), lang = h("input", { type: "text", value: c.lang || "", placeholder: "any (or en, de, ...)" });
+        var ph = h("textarea", { value: (c.phrases || []).join("\n"), placeholder: "party mode\nlet's party" });
+        var say = h("input", { type: "text", value: c.say || "", placeholder: "What the robot says back" }), anim = h("input", { type: "text", value: c.animation || "", placeholder: "Animation name" });
+        var cont = h("input", { type: "checkbox", checked: !!c.contains }), ex = h("input", { type: "checkbox", checked: !!c.exact });
+        c._n = { name: name, lang: lang, ph: ph, say: say, anim: anim, cont: cont, ex: ex };
+        list.appendChild(h("section", { class: "block" }, [h("h2", { text: c.name ? "“" + c.name + "”" : "New command" }),
+          h("div", { class: "row" }, [h("div", {}, [h("label", { text: "Name (letters, digits, - and _)" }), name]), h("div", {}, [h("label", { text: "Language" }), lang])]),
+          h("label", { text: "Say any of these (one per line, any language)" }), ph, h("div", { class: "row" }, [h("div", {}, [h("label", { text: "Robot says" }), say]), h("div", {}, [h("label", { text: "Or plays animation" }), anim])]),
+          h("label", { class: "check" }, [cont, "The phrase may be anywhere inside a longer sentence"]),
+          h("label", { class: "check" }, [ex, "The whole sentence must be exactly the phrase"]),
+          h("div", { class: "row", style: "margin-top:12px" }, [h("button", { class: "danger fixed alone", text: "Remove this command", onclick: function () { sync(); data.splice(i, 1); draw(); } })])]));
+      });
+      if (!data.length) { list.appendChild(block(null, [h("p", { class: "lede", text: "No commands yet. Add one: a few phrases, and what EMO says or plays back." })])); }
+    }
+    function sync() {
+      data.forEach(function (c) {
+        if (!c._n) { return; }
+        c.name = c._n.name.value.trim(); c.lang = c._n.lang.value.trim(); c.phrases = c._n.ph.value.split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean);
+        c.say = c._n.say.value.trim(); c.animation = c._n.anim.value.trim(); c.contains = c._n.cont.checked; c.exact = c._n.ex.checked;
+      });
+    }
+    saveBtn.onclick = function () {
+      sync();
+      var body = { commands: data.map(function (c) { return { name: c.name, lang: c.lang, phrases: c.phrases, say: c.say, animation: c.animation, contains: c.contains, exact: c.exact }; }) };
+      api("PUT", "/admin/commands/file", body).then(function () { msg.className = "ok"; msg.textContent = "Saved. It works right away - no restart needed."; toast("Commands saved."); }).catch(function (e) { msg.className = "bad"; msg.textContent = e.message; });
+    };
+    var info = h("p", { class: "note small" });
+    root.appendChild(block(null, [h("p", { class: "lede", text: "They are checked before the built-in commands, so they can also replace one. Programs can only be added by editing the file, for safety." }), info]));
+    root.appendChild(list);
+    root.appendChild(block(null, [h("div", { class: "row" }, [h("button", { class: "plain fixed", text: "Add a command", onclick: function () { sync(); data.push({ name: "", lang: "", phrases: [], say: "", animation: "" }); draw(); } }), saveBtn]), msg]));
+    function load() {
+      api("GET", "/admin/commands/file").then(function (d) {
+        data = d.commands || []; draw(); saveBtn.disabled = !d.can_edit;
+        info.textContent = (d.can_edit ? "" : "Editing is off (admin_allow_edit). ") + (d.kept_in_file ? d.kept_in_file + " command(s) that run programs are kept in the file and not shown here. " : "") + "File: " + d.file;
+      }).catch(fail);
+    }
+    return { root: root, load: load };
+  }
+
+  // ================= ACTIVITY =================
+  function activityView() {
+    var root = h("div"), note = h("p", { class: "lede" }), list = h("ul", { class: "heard" });
+    root.appendChild(block(null, [note,
+      h("div", { class: "row" }, [h("button", { class: "plain fixed", text: "Refresh", onclick: load }), h("button", { class: "danger fixed alone", text: "Clear the list", onclick: function () { api("DELETE", "/admin/activity").then(load).catch(fail); } })]),
+      list, timeKey()]));
+    function load() {
+      api("GET", "/admin/activity").then(function (d) {
+        note.textContent = d.enabled ? "Kept in memory only (last 100), never written to disk, and cleared when the server restarts. Bars show the time to answer after you stopped talking." : "Off. Turn on “Show what EMO heard” on the Expert tab, save and restart.";
+        clear(list); d.entries.forEach(function (e) { list.appendChild(heardItem(e)); });
+        if (d.enabled && !d.entries.length) { list.appendChild(h("li", { class: "note", text: "Nothing yet. Talk to EMO and come back." })); }
+      }).catch(fail);
+    }
+    return { root: root, load: load };
+  }
+
+  // ================= HELP =================
+  function helpView() {
+    var root = h("div"), guides = h("div"), ip = "192.168.1.10", adminUrls = [];
+    function load() {
+      Promise.all([api("GET", "/admin/detect"), api("GET", "/admin/config")]).then(function (r) {
+        ip = (r[0].lan_ips || [])[0] || ip; adminUrls = r[1].admin_urls || [];
+        drawGuides();
+      }).catch(fail);
+    }
+    function drawGuides() {
+      clear(guides);
+      guides.appendChild(block("Making the robot find this server", [
+        h("p", { class: "lede", text: "The robot asks the network for its server by name and then connects to port 443. Two small things make it reach this computer:" }),
+        h("h3", { text: "1. The name" }), h("p", { class: "note", text: "Either turn on the DNS helper (Expert tab) and set the robot's DNS server to this computer's address (" + ip + ") - in your router's DHCP settings, or give the robot a fixed DNS server - or add a DNS override for the name in your router (AdGuard Home, Pi-hole, dnsmasq and most routers can)." }),
+        h("h3", { text: "2. The port" }), h("p", { class: "note", text: "The robot connects to 443; the server listens on 8443 so it does not need special rights. Send 443 to 8443 on this computer (run once, as root):" }),
+        copyBox("nft add table ip emo\nnft add chain ip emo pre '{ type nat hook prerouting priority -100; }'\nnft add rule ip emo pre tcp dport 443 redirect to :8443"),
+        h("p", { class: "note small", text: "Or, with iptables:" }), copyBox("iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-ports 8443"),
+        h("p", { class: "note small", text: "The robot does not check the server's certificate, so the one the server made for itself is fine." })]));
+      guides.appendChild(block("Opening this page from your phone or another computer", [
+        h("p", { class: "lede", text: "Any device on your home network can open one of these addresses and sign in with the same token. The https:// address is encrypted (your browser will warn about the certificate this server made for itself: accept it); the http:// address is not, so use it only on a network you trust." }),
+        adminUrls.length ? h("ul", {}, adminUrls.map(function (u) { return h("li", {}, [h("code", { text: u })]); })) : h("p", { class: "note small", text: "No other address is open: the page is only reachable from this computer." })]));
+      guides.appendChild(block("Installing the listening engine (whisper.cpp)", [
+        h("p", { class: "lede", text: "One-time steps. You need git, cmake and a C++ compiler. This builds the program and downloads one model file (the base English model is about 150 MB; use ggml-small.bin for other languages)." }),
+        copyBox("git clone https://github.com/ggml-org/whisper.cpp\ncd whisper.cpp\ncmake -B build\ncmake --build build -j --config Release\nsh ./models/download-ggml-model.sh base.en"),
+        h("p", { class: "note small", text: "Then in Setup choose \"whisper.cpp on this computer\" and enter the model path (it is listed there if it is in ~/whisper.cpp/models) and the program path (build/bin/whisper-server), or put that folder on your PATH. The server starts and watches the engine for you. Names and download addresses can change; the project's own page has the current steps." })]));
+      guides.appendChild(block("Installing the voice and the chat model", [
+        h("p", { class: "lede", text: "The voice (espeak-ng with lame) and a local chat model (Ollama):" }),
+        copyBox("# Debian / Ubuntu\nsudo apt install espeak-ng lame\n# Arch\nsudo pacman -S espeak-ng lame\n# Ollama: see https://ollama.com for the installer, then\nollama pull llama3.2"),
+        h("p", { class: "note small", text: "Online services (Groq, Gemini, OpenRouter, Anthropic, Google, ElevenLabs, OpenWeatherMap) only need an account and a key: choose them in Setup and paste the key. Free allowances and terms change; check the provider's page. The Expert tab lists what is installed on this computer." })]));
+      guides.appendChild(block("Allowing port 53 for the DNS helper", [
+        copyBox("sudo setcap cap_net_bind_service=+ep \"$(readlink -f ./emoserver)\""), h("p", { class: "note small", text: "Run this once after each rebuild of the server program." })]));
+    }
+    root.appendChild(guides);
+    return { root: root, load: load };
+  }
+
+  // ================= EXPERT =================
+  function expertView() {
+    var root = h("div"), form = h("div"), server = h("div"), tools = h("div"), cap = h("div"), langs = h("tbody");
+    function check(label, on, help) { var c = h("input", { type: "checkbox", checked: !!on }); return { c: c, el: h("div", {}, [h("label", { class: "check" }, [c, label]), help ? h("div", { class: "note small", text: help }) : null]) }; }
+    function field(label, value, ph) { var i = h("input", { type: "text", value: value || "", placeholder: ph || "", autocomplete: "off" }); return { i: i, row: [h("label", { text: label }), i] }; }
+    function drawForm(meta) {
+      clear(form); var cfg = meta.config, flags = {};
+      var ro = readOnlyNote(meta); if (ro) { form.appendChild(ro); }
+      flags.free = check("Answer anything else by chatting", cfg.free_chat, "Needs a chat model (Setup).");
+      flags.cmds = check("Let the chat model also pick simple commands", cfg.llm_commands, "Understands odd wordings; it can never power the robot off or update it.");
+      flags.pre = check("Clean up recordings before listening", cfg.stt_preprocess, "Lifts quiet recordings. Try it if the robot mishears you.");
+      flags.act = check("Show what EMO heard (Home and Activity)", cfg.activity_log, "Kept in memory only (last 100), never written to disk.");
+      flags.cap = check("Record what the robot asks for (capture)", cfg.capture_on, "Helps check an unfamiliar robot. Bodies and voices are not saved.");
+      form.appendChild(block("Options", [flags.free.el, flags.cmds.el, flags.pre.el, flags.act.el, flags.cap.el]));
+      flags.dns = check("Turn the DNS helper on", !!cfg.dns_listen, "Port 53 needs the server to run with permission for it (see Help).");
+      var dnsNames = field("Name the robot asks for (comma separated)", (cfg.dns_names || []).join(", "), "api.example.com");
+      var dnsUp = field("Your router's address, for every other name", cfg.dns_upstream ? cfg.dns_upstream.replace(/:53$/, "") : "", "192.168.1.1");
+      form.appendChild(block("Pointing the robot here (DNS helper)", [h("p", { class: "lede", text: "The robot looks up its server by name. This small helper answers that one name with this computer and passes everything else to your router. Skip it if your router can do the same." }),
+        flags.dns.el].concat(dnsNames.row, dnsUp.row)));
+      form.appendChild(saveBar(meta, function () {
+        var out = { free_chat: flags.free.c.checked, llm_commands: flags.cmds.c.checked, stt_preprocess: flags.pre.c.checked, activity_log: flags.act.c.checked, capture_on: flags.cap.c.checked };
+        if (flags.dns.c.checked) {
+          out.dns_listen = ":53"; out.dns_answer_ip = (cfg.public_host || "").split(":")[0];
+          out.dns_names = dnsNames.i.value.split(/[,\n]/).map(function (x) { return x.trim(); }).filter(Boolean);
+          var up = dnsUp.i.value.trim(); out.dns_upstream = up ? (up.indexOf(":") < 0 ? up + ":53" : up) : "";
+        } else { out.dns_listen = ""; }
+        return out;
+      }));
+    }
+    function load() {
+      Promise.all([api("GET", "/admin/config"), api("GET", "/admin/status"), api("GET", "/admin/detect"), api("GET", "/admin/capture"), api("GET", "/admin/languages")]).then(function (r) {
+        CFG = r[0].config; drawForm(r[0]);
+        var s = r[1], up = s.uptime_s, n = up < 3600 ? Math.max(1, Math.round(up / 60)) : Math.round(up / 3600), txt = n + (up < 3600 ? " minute" : " hour") + (n === 1 ? "" : "s");
+        var names = Object.keys(s.requests || {}).sort();
+        clear(server).appendChild(h("h2", { text: "Server" }));
+        server.appendChild(h("p", { text: "Running for " + txt + ". Version offered to the robot: " + s.version_num + "." }));
+        server.appendChild(h("p", { class: "note small", text: names.length ? "Requests so far: " + names.map(function (k) { return k + " " + s.requests[k]; }).join(", ") : "No requests yet." }));
+        var d = r[2], t = h("table");
+        clear(tools).appendChild(h("h2", { text: "What is installed on this computer" }));
+        function row(ok, name, note) { return h("tr", {}, [h("td", {}, [mark(ok ? "ok" : "todo")]), h("td", { text: name }), h("td", { class: "muted small", text: note })]); }
+        [["whisper-server", "Listening (whisper.cpp)"], ["espeak-ng", "Voice (espeak-ng)"], ["lame", "Makes the voice small (needed with espeak-ng and Piper)"], ["piper", "Voice (Piper, optional)"], ["ollama", "Chat (Ollama, optional)"]].forEach(function (x) {
+          var p = d.tools[x[0]]; t.appendChild(row(!!p, x[0], x[1] + (p ? " - " + p : " - missing")));
+        });
+        t.appendChild(row(d.ollama.running, "Ollama server", d.ollama.running ? (d.ollama.models.length ? "models: " + d.ollama.models.join(", ") : "no models yet - run: ollama pull llama3.2") : "not running - start it with: ollama serve"));
+        t.appendChild(row(d.whisper_models.length > 0, "whisper model files", d.whisper_models.join(", ") || "none found - see Help"));
+        tools.appendChild(t);
+        var c = r[3]; clear(cap).appendChild(h("h2", { text: "What the robot asked for (capture)" }));
+        if (!c.enabled) { cap.appendChild(h("p", { class: "note", text: "Capture is off. Turn it on above, save and restart, use the robot for a minute, then come back here. It records which requests arrive, not what you said." })); }
+        else {
+          cap.appendChild(h("p", { class: "note small", text: c.total + " request(s) recorded in " + c.dir + ". Robot ids are hidden here." }));
+          var ct = h("table", {}, [h("tr", {}, ["Request", "Times", "Answers", "Biggest upload"].map(function (x) { return h("th", { text: x }); }))]);
+          c.routes.forEach(function (x) { ct.appendChild(h("tr", {}, [h("td", { class: x.not_served ? "bad" : "", text: x.method + " " + x.path + (x.not_served ? "  (not served yet)" : "") }), h("td", { class: "num", text: String(x.count) }), h("td", { class: "muted small", text: Object.keys(x.statuses).map(function (k) { return k + " x" + x.statuses[k]; }).join(", ") }), h("td", { class: "muted small num", text: x.biggest_body_bytes + " bytes" })])); });
+          cap.appendChild(ct);
+        }
+        clear(langs); r[4].languages.forEach(function (l) { langs.appendChild(h("tr", {}, [l.code, String(l.phrases), l.lexicon ? "yes" : "no"].map(function (x) { return h("td", { text: x }); }))); });
+      }).catch(fail);
+    }
+    root.appendChild(form);
+    root.appendChild(h("section", { class: "block" }, [server]));
+    root.appendChild(h("section", { class: "block" }, [tools]));
+    root.appendChild(h("section", { class: "block" }, [cap]));
+    root.appendChild(block("Languages", [h("table", {}, [h("thead", {}, [h("tr", {}, ["Code", "Phrases", "Timers, alarms, colours, cities"].map(function (x) { return h("th", { text: x }); }))]), langs])]));
+    return { root: root, load: load };
+  }
+
+  function fail(e) {
+    if (e && e.auth) { signOut("The token was not accepted."); return; }
+    toast((e && e.message) || "Something went wrong.", true);
+  }
+
+  // ---- start ----
+  function enter() {
+    $("login").style.display = "none"; $("top").hidden = false; $("desk").hidden = false;
+    $("who").textContent = "signed in";
+    if (!views.home) {
+      views.home = homeView(); views.setup = setupView(); views.test = testView(); views.commands = commandsView(); views.activity = activityView(); views.help = helpView(); views.expert = expertView();
+      Object.keys(views).forEach(function (k) { $("app").appendChild(views[k].root); });
+    }
+    show(current, true);
+  }
+  function signOut(msg) {
+    tset(""); token = ""; $("desk").hidden = true; $("top").hidden = true; $("login").style.display = "block"; $("loginmsg").textContent = msg || ""; $("tok").value = "";
+    document.documentElement.setAttribute("data-s", "home");
+  }
+  function trySignIn(t) {
+    token = t;
+    return api("GET", "/admin/status").then(function () { tset(t); enter(); }).catch(function (e) { signOut(e.auth ? "That token was not accepted." : "Could not reach the server: " + e.message); });
+  }
+  $("loginform").addEventListener("submit", function (e) { e.preventDefault(); trySignIn($("tok").value.trim()); });
+  $("logout").onclick = function () { signOut(""); };
+  var local = ["127.0.0.1", "localhost", "[::1]"].indexOf(location.hostname) >= 0;
+  if (location.protocol === "http:" && !local) {
+    var pb = $("plain"); pb.hidden = false;
+    pb.textContent = "This connection is not encrypted, so the token you type can be seen by others on this network. That is fine on a home network you trust; otherwise open the https:// address of this page instead (see Help > Opening this page from your phone).";
+  }
+  var saved = tget();
+  if (saved) { trySignIn(saved); } else { $("login").style.display = "block"; }
+})();
+</script>
+</body>
+</html>
