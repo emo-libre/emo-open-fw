@@ -181,3 +181,8 @@ guard: a transcript that is the hint or two hint items back to back counts as no
 Persona now answers first with the real fact, then one playful line; honest about news/scores/time; under 30 words. Replies cut by the token cap end on
 their last whole sentence (`endOnSentence`). Local model temperature 0.5 (owner config, example, local preset): at 0.8 the 3B model mixed itself up
 ("I have eight legs!"). Live: correct answers in 5.2-7.6 s through the real handler.
+
+2026-11-06: PUBLISHED as https://github.com/emo-libre/emo-open-fw (public, GPL-3.0-or-later, branch main). Root README is a copy-paste beginner
+guide with an interoperability disclaimer. Owner decisions recorded in NOTICES: Vietnamese pack ships with the contributor's permission (credited);
+the maker's short command phrases ship as interoperability data (ROBOTEKA credited). Kept out of the repo: server data/keys/config, review
+screenshots, the wire-pod comparison notes. Commits use the GitHub noreply address. Before every push: `go run ./tools/emotool denylist-scan`.
